@@ -9,7 +9,8 @@
     "@arcium-hq/client": "latest",
     "@coral-xyz/anchor": "^0.32.1",
     "@noble/curves": "^1.4.0",
-    "@solana/web3.js": "^1.95.0"
+    "@solana/web3.js": "^1.98.4",
+    "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
     "@types/chai": "^4.3.0",
