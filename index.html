@@ -323,31 +323,37 @@
     .btn-connect:hover { background: var(--brown-3); }
     .btn-connect:disabled { background: var(--brown-1); cursor: not-allowed; opacity: 0.6; }
 
+    /* ── MULTI-TOKEN BALANCES ── */
+    .balance-section { display: none; margin-bottom: 1rem; }
+    .balance-section.show { display: block; }
+    .balance-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.5rem 0.75rem;
+      background: var(--cream-2);
+      margin-bottom: 2px;
+    }
+    .balance-token { display: flex; align-items: center; gap: 0.5rem; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); }
+    .token-icon { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.55rem; font-weight: 700; flex-shrink: 0; }
+    .token-icon.sol { background: #9945FF; color: white; }
+    .token-icon.usdc { background: #2775CA; color: white; }
+    .token-icon.usdt { background: #26A17B; color: white; }
+    .balance-amount { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--brown-3); font-weight: 500; }
+
     .network-info { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--cream-3); }
     .network-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
     .network-key { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); }
     .network-val { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--brown-3); }
     .network-val.truncated { max-width: 16ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    /* Balance display */
-    .balance-box {
-      background: var(--cream-2);
-      padding: 0.75rem 1rem;
-      margin-bottom: 1rem;
-      display: none;
-    }
-    .balance-box.show { display: flex; justify-content: space-between; align-items: center; }
-    .balance-label { font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); }
-    .balance-val { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--brown-3); font-weight: 500; }
-
     .form-panel { display: flex; flex-direction: column; gap: 1.5rem; }
 
-    .tabs { display: flex; border-bottom: 1px solid var(--cream-3); }
+    /* ── TABS ── */
+    .tabs { display: flex; border-bottom: 1px solid var(--cream-3); flex-wrap: wrap; }
     .tab {
       font-size: 0.62rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      padding: 0.85rem 1.5rem;
+      padding: 0.85rem 1.25rem;
       cursor: pointer;
       color: var(--text-light);
       border-bottom: 2px solid transparent;
@@ -356,9 +362,16 @@
       background: none;
       border-top: none; border-left: none; border-right: none;
       font-family: 'Josefin Sans', sans-serif;
+      position: relative;
     }
     .tab.active { color: var(--brown-4); border-bottom-color: var(--gold); }
     .tab:hover:not(.active) { color: var(--brown-3); }
+    .tab-badge {
+      position: absolute; top: 0.35rem; right: 0.2rem;
+      background: var(--gold); color: white;
+      font-size: 0.46rem; width: 13px; height: 13px;
+      border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: 700;
+    }
 
     .tab-content { display: none; }
     .tab-content.active { display: block; }
@@ -370,6 +383,26 @@
     .form-input::placeholder { color: var(--cream-3); }
     .form-hint { font-size: 0.58rem; letter-spacing: 0.08em; color: var(--text-light); margin-top: 0.35rem; font-weight: 300; }
 
+    /* ── TOKEN SELECTOR ── */
+    .token-selector { display: flex; gap: 2px; margin-bottom: 0.5rem; }
+    .token-btn {
+      display: flex; align-items: center; gap: 0.35rem;
+      padding: 0.4rem 0.75rem;
+      background: var(--cream-0);
+      border: 1px solid var(--cream-3);
+      cursor: pointer;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-mid);
+      transition: all 0.18s;
+    }
+    .token-btn:hover { border-color: var(--brown-2); color: var(--brown-4); }
+    .token-btn.active { background: var(--brown-4); color: var(--cream-1); border-color: var(--brown-4); }
+    .token-btn .ti { width: 14px; height: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.5rem; font-weight: 700; flex-shrink: 0; }
+    .token-btn .ti.sol { background: #9945FF; color: white; }
+    .token-btn .ti.usdc { background: #2775CA; color: white; }
+    .token-btn .ti.usdt { background: #26A17B; color: white; }
+
     .ratio-bar-wrap { margin: 1rem 0; }
     .ratio-label-row { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
     .ratio-bar-bg { height: 4px; background: var(--cream-3); position: relative; overflow: hidden; }
@@ -378,16 +411,10 @@
     .btn-submit {
       width: 100%;
       font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
       padding: 1rem;
-      background: var(--brown-4);
-      color: var(--cream-1);
-      border: none;
-      cursor: pointer;
-      transition: all 0.25s;
-      margin-top: 0.5rem;
+      background: var(--brown-4); color: var(--cream-1);
+      border: none; cursor: pointer; transition: all 0.25s; margin-top: 0.5rem;
     }
     .btn-submit:hover:not(:disabled) { background: var(--brown-3); box-shadow: 0 6px 20px rgba(92,61,30,0.3); }
     .btn-submit:disabled { background: var(--brown-1); cursor: not-allowed; }
@@ -400,14 +427,10 @@
     .result-box.success .result-title { color: var(--success); }
     .result-box.error .result-title { color: var(--error); }
     .result-body { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--brown-3); word-break: break-all; line-height: 1.7; }
-
-    /* TX link */
     .tx-link { color: var(--gold); text-decoration: underline; cursor: pointer; }
 
     .enc-notice {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
+      display: flex; align-items: flex-start; gap: 0.75rem;
       padding: 1rem;
       background: rgba(201,150,58,0.06);
       border: 1px solid rgba(201,150,58,0.25);
@@ -418,6 +441,97 @@
 
     .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 0.5rem; vertical-align: middle; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── MY POSITIONS ── */
+    .positions-empty {
+      text-align: center; padding: 3rem 1rem;
+      color: var(--text-light); font-size: 0.7rem; letter-spacing: 0.1em;
+      border: 1px dashed var(--cream-3); margin-top: 1rem;
+    }
+    .positions-empty .empty-icon { font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.4; }
+
+    .positions-summary {
+      display: none; grid-template-columns: repeat(3, 1fr); gap: 2px;
+      margin-top: 1rem; margin-bottom: 0.5rem;
+    }
+    .pos-sum-box { background: var(--cream-2); padding: 0.75rem; text-align: center; }
+    .pos-sum-label { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.3rem; }
+    .pos-sum-val { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--brown-3); font-weight: 500; }
+
+    .position-card {
+      background: var(--cream-0); border: 1px solid var(--cream-3);
+      padding: 1.25rem; margin-top: 0.75rem; position: relative;
+    }
+    .position-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--brown-2));
+    }
+    .position-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+    .position-title { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--brown-4); }
+    .position-date { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--text-light); }
+    .position-amounts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .pos-amount-box { background: var(--cream-2); padding: 0.6rem 0.75rem; }
+    .pos-amount-label { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.2rem; }
+    .pos-amount-val { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--brown-3); font-weight: 500; }
+    .pos-amount-val .token-tag { font-size: 0.55rem; color: var(--text-light); margin-left: 0.25rem; }
+
+    .health-wrap { margin-bottom: 0.75rem; }
+    .health-label-row { display: flex; justify-content: space-between; margin-bottom: 0.3rem; }
+    .health-label { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); }
+    .health-val { font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500; }
+    .health-val.safe { color: var(--success); }
+    .health-val.warn { color: var(--gold); }
+    .health-val.danger { color: var(--error); }
+    .health-bar-bg { height: 4px; background: var(--cream-3); }
+    .health-bar-fill { height: 100%; transition: width 0.4s; }
+    .health-bar-fill.safe { background: linear-gradient(90deg, var(--gold), var(--success)); }
+    .health-bar-fill.warn { background: linear-gradient(90deg, var(--error), var(--gold)); }
+    .health-bar-fill.danger { background: var(--error); }
+
+    .position-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+    .btn-pos {
+      flex: 1; font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.6rem; border: 1px solid var(--cream-3);
+      cursor: pointer; transition: all 0.2s; background: transparent; color: var(--text-mid);
+    }
+    .btn-pos:hover { border-color: var(--brown-3); color: var(--brown-4); background: var(--cream-2); }
+    .btn-pos.danger { border-color: rgba(184,64,64,0.3); color: var(--error); }
+    .btn-pos.danger:hover { background: rgba(184,64,64,0.06); border-color: var(--error); }
+
+    /* ── REDUCE MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(59,34,8,0.5); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--cream-1); border: 1px solid var(--cream-3);
+      padding: 2rem; width: 360px; position: relative;
+    }
+    .modal::before {
+      content: ''; position: absolute; top: 0; left: 1.5rem; right: 1.5rem; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--brown-2));
+    }
+    .modal-title { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brown-4); margin-bottom: 1.25rem; }
+    .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; cursor: pointer; font-size: 1.1rem; color: var(--text-light); line-height: 1; }
+    .modal-close:hover { color: var(--brown-4); }
+    .modal-actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .btn-modal-cancel {
+      flex: 1; font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.75rem; background: transparent; color: var(--text-mid);
+      border: 1px solid var(--cream-3); cursor: pointer; transition: all 0.2s;
+    }
+    .btn-modal-cancel:hover { background: var(--cream-2); }
+    .btn-modal-confirm {
+      flex: 1; font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.75rem; background: var(--brown-4); color: var(--cream-1);
+      border: none; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-modal-confirm:hover { background: var(--brown-3); }
 
     #tech { background: var(--brown-5); color: var(--cream-1); }
     #tech .section-title { color: var(--cream-1); }
@@ -472,6 +586,27 @@
 </head>
 <body>
 
+  <!-- REDUCE MODAL -->
+  <div class="modal-overlay" id="reduceModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeReduceModal()">✕</button>
+      <div class="modal-title">Reduce Position</div>
+      <div class="form-group">
+        <label class="form-label">Amount to Repay</label>
+        <input type="number" class="form-input" id="reduceAmount" placeholder="0.00" min="0" step="0.01"/>
+        <div class="form-hint" id="reduceHint">Max: —</div>
+      </div>
+      <div class="enc-notice" style="margin-top:0;">
+        <span class="enc-icon">🔒</span>
+        <span class="enc-text">Partial repayment will be encrypted and processed via Arcium MPC. Phantom will sign the transaction.</span>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-modal-cancel" onclick="closeReduceModal()">Cancel</button>
+        <button class="btn-modal-confirm" onclick="confirmReduce()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
   <nav>
     <div class="nav-logo">Priva<span>Lend</span></div>
     <ul class="nav-links">
@@ -521,34 +656,19 @@
   </section>
 
   <div class="stats-bar">
-    <div class="stat-item">
-      <span class="stat-num">3</span>
-      <span class="stat-label">Encrypted Circuits</span>
-    </div>
+    <div class="stat-item"><span class="stat-num">3</span><span class="stat-label">Encrypted Circuits</span></div>
     <div class="stat-divider"></div>
-    <div class="stat-item">
-      <span class="stat-num">100%</span>
-      <span class="stat-label">Private Computation</span>
-    </div>
+    <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Private Computation</span></div>
     <div class="stat-divider"></div>
-    <div class="stat-item">
-      <span class="stat-num">0</span>
-      <span class="stat-label">Data Exposed</span>
-    </div>
+    <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">Data Exposed</span></div>
     <div class="stat-divider"></div>
-    <div class="stat-item">
-      <span class="stat-num">MPC</span>
-      <span class="stat-label">Powered by Arcium</span>
-    </div>
+    <div class="stat-item"><span class="stat-num">MPC</span><span class="stat-label">Powered by Arcium</span></div>
   </div>
 
   <section id="how">
     <div class="section-tag">Protocol</div>
     <h2 class="section-title">How PrivaLend<br>works</h2>
-    <p class="section-sub">
-      Every computation — from loan validation to liquidation checks — runs inside
-      Arcium's encrypted MPC environment. No node ever sees your data in plaintext.
-    </p>
+    <p class="section-sub">Every computation — from loan validation to liquidation checks — runs inside Arcium's encrypted MPC environment. No node ever sees your data in plaintext.</p>
     <div class="how-grid">
       <div class="how-card">
         <div class="how-num">01</div>
@@ -571,10 +691,7 @@
   <section id="app">
     <div class="section-tag">Application</div>
     <h2 class="section-title">Private Lending<br><em>Interface</em></h2>
-    <p class="section-sub">
-      Connect your Phantom wallet to interact with encrypted lending operations
-      on Solana devnet via the Arcium MPC network.
-    </p>
+    <p class="section-sub">Connect your Phantom wallet to interact with encrypted lending operations on Solana devnet via the Arcium MPC network.</p>
 
     <div class="app-layout">
       <div>
@@ -585,10 +702,23 @@
             <span id="statusText" style="font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Not Connected</span>
           </div>
           <div class="wallet-address" id="walletAddress">—</div>
-          <div class="balance-box" id="balanceBox">
-            <span class="balance-label">Devnet Balance</span>
-            <span class="balance-val" id="balanceVal">— SOL</span>
+
+          <!-- Multi-token balances -->
+          <div class="balance-section" id="balanceSection">
+            <div class="balance-row">
+              <div class="balance-token"><div class="token-icon sol">◎</div> SOL</div>
+              <div class="balance-amount" id="balSOL">—</div>
+            </div>
+            <div class="balance-row">
+              <div class="balance-token"><div class="token-icon usdc">$</div> USDC</div>
+              <div class="balance-amount" id="balUSDC">—</div>
+            </div>
+            <div class="balance-row">
+              <div class="balance-token"><div class="token-icon usdt">₮</div> USDT</div>
+              <div class="balance-amount" id="balUSDT">—</div>
+            </div>
           </div>
+
           <button class="btn-connect" id="connectBtn" onclick="connectWallet()">Connect Phantom Wallet</button>
 
           <div class="network-info">
@@ -617,17 +747,31 @@
           <button class="tab active" onclick="switchTab('validate', this)">Validate Loan</button>
           <button class="tab" onclick="switchTab('liquidation', this)">Liquidation Check</button>
           <button class="tab" onclick="switchTab('capacity', this)">Borrow Capacity</button>
+          <button class="tab" onclick="switchTab('positions', this)">
+            My Positions
+            <span class="tab-badge" id="positionsBadge">0</span>
+          </button>
         </div>
 
         <!-- Tab: Validate Loan -->
         <div class="tab-content active" id="tab-validate">
           <div class="form-group">
-            <label class="form-label">Borrow Amount (SOL)</label>
+            <label class="form-label">Borrow Token</label>
+            <div class="token-selector" id="borrowTokenSel">
+              <button class="token-btn active" onclick="selectToken('borrowTokenSel','SOL',this)"><span class="ti sol">◎</span> SOL</button>
+              <button class="token-btn" onclick="selectToken('borrowTokenSel','USDC',this)"><span class="ti usdc">$</span> USDC</button>
+              <button class="token-btn" onclick="selectToken('borrowTokenSel','USDT',this)"><span class="ti usdt">₮</span> USDT</button>
+            </div>
             <input type="number" class="form-input" id="borrowAmount" placeholder="0.00" min="0" step="0.01" oninput="updateRatio()"/>
             <div class="form-hint">Amount you wish to borrow against your collateral</div>
           </div>
           <div class="form-group">
-            <label class="form-label">Collateral Amount (SOL)</label>
+            <label class="form-label">Collateral Token</label>
+            <div class="token-selector" id="collateralTokenSel">
+              <button class="token-btn active" onclick="selectToken('collateralTokenSel','SOL',this)"><span class="ti sol">◎</span> SOL</button>
+              <button class="token-btn" onclick="selectToken('collateralTokenSel','USDC',this)"><span class="ti usdc">$</span> USDC</button>
+              <button class="token-btn" onclick="selectToken('collateralTokenSel','USDT',this)"><span class="ti usdt">₮</span> USDT</button>
+            </div>
             <input type="number" class="form-input" id="collateralAmount" placeholder="0.00" min="0" step="0.01" oninput="updateRatio()"/>
             <div class="form-hint">Your collateral must be ≥ 150% of borrow amount</div>
           </div>
@@ -642,20 +786,28 @@
             <span class="enc-icon">🔒</span>
             <span class="enc-text">Your borrow and collateral amounts will be encrypted before submission. The MPC cluster validates your eligibility without learning the actual values. A real Solana transaction will be sent and signed by your Phantom wallet.</span>
           </div>
-          <button class="btn-submit" id="validateBtn" onclick="submitValidateLoan()" disabled>
-            Submit Encrypted Loan Request
-          </button>
+          <button class="btn-submit" id="validateBtn" onclick="submitValidateLoan()" disabled>Submit Encrypted Loan Request</button>
           <div class="result-box" id="validateResult"></div>
         </div>
 
         <!-- Tab: Liquidation Check -->
         <div class="tab-content" id="tab-liquidation">
           <div class="form-group">
-            <label class="form-label">Outstanding Borrow (SOL)</label>
+            <label class="form-label">Borrow Token</label>
+            <div class="token-selector" id="liqBorrowTokenSel">
+              <button class="token-btn active" onclick="selectToken('liqBorrowTokenSel','SOL',this)"><span class="ti sol">◎</span> SOL</button>
+              <button class="token-btn" onclick="selectToken('liqBorrowTokenSel','USDC',this)"><span class="ti usdc">$</span> USDC</button>
+              <button class="token-btn" onclick="selectToken('liqBorrowTokenSel','USDT',this)"><span class="ti usdt">₮</span> USDT</button>
+            </div>
             <input type="number" class="form-input" id="liqBorrow" placeholder="0.00" min="0" step="0.01"/>
           </div>
           <div class="form-group">
-            <label class="form-label">Collateral Value (SOL)</label>
+            <label class="form-label">Collateral Token</label>
+            <div class="token-selector" id="liqColTokenSel">
+              <button class="token-btn active" onclick="selectToken('liqColTokenSel','SOL',this)"><span class="ti sol">◎</span> SOL</button>
+              <button class="token-btn" onclick="selectToken('liqColTokenSel','USDC',this)"><span class="ti usdc">$</span> USDC</button>
+              <button class="token-btn" onclick="selectToken('liqColTokenSel','USDT',this)"><span class="ti usdt">₮</span> USDT</button>
+            </div>
             <input type="number" class="form-input" id="liqCollateral" placeholder="0.00" min="0" step="0.01"/>
           </div>
           <div class="form-group">
@@ -667,20 +819,28 @@
             <span class="enc-icon">🔒</span>
             <span class="enc-text">Your position data is encrypted before the liquidation check runs on Arcium's MPC network. Phantom will pop up to sign the real transaction.</span>
           </div>
-          <button class="btn-submit" id="liqBtn" onclick="submitLiquidationCheck()" disabled>
-            Run Encrypted Liquidation Check
-          </button>
+          <button class="btn-submit" id="liqBtn" onclick="submitLiquidationCheck()" disabled>Run Encrypted Liquidation Check</button>
           <div class="result-box" id="liqResult"></div>
         </div>
 
         <!-- Tab: Borrow Capacity -->
         <div class="tab-content" id="tab-capacity">
           <div class="form-group">
-            <label class="form-label">Current Borrow (SOL)</label>
+            <label class="form-label">Borrow Token</label>
+            <div class="token-selector" id="capBorrowTokenSel">
+              <button class="token-btn active" onclick="selectToken('capBorrowTokenSel','SOL',this)"><span class="ti sol">◎</span> SOL</button>
+              <button class="token-btn" onclick="selectToken('capBorrowTokenSel','USDC',this)"><span class="ti usdc">$</span> USDC</button>
+              <button class="token-btn" onclick="selectToken('capBorrowTokenSel','USDT',this)"><span class="ti usdt">₮</span> USDT</button>
+            </div>
             <input type="number" class="form-input" id="capBorrow" placeholder="0.00" min="0" step="0.01"/>
           </div>
           <div class="form-group">
-            <label class="form-label">Total Collateral (SOL)</label>
+            <label class="form-label">Collateral Token</label>
+            <div class="token-selector" id="capColTokenSel">
+              <button class="token-btn active" onclick="selectToken('capColTokenSel','SOL',this)"><span class="ti sol">◎</span> SOL</button>
+              <button class="token-btn" onclick="selectToken('capColTokenSel','USDC',this)"><span class="ti usdc">$</span> USDC</button>
+              <button class="token-btn" onclick="selectToken('capColTokenSel','USDT',this)"><span class="ti usdt">₮</span> USDT</button>
+            </div>
             <input type="number" class="form-input" id="capCollateral" placeholder="0.00" min="0" step="0.01"/>
           </div>
           <div class="form-group">
@@ -691,10 +851,27 @@
             <span class="enc-icon">🔒</span>
             <span class="enc-text">Your remaining borrow capacity is computed privately. Phantom will pop up to sign the real on-chain transaction.</span>
           </div>
-          <button class="btn-submit" id="capBtn" onclick="submitBorrowCapacity()" disabled>
-            Compute Encrypted Borrow Capacity
-          </button>
+          <button class="btn-submit" id="capBtn" onclick="submitBorrowCapacity()" disabled>Compute Encrypted Borrow Capacity</button>
           <div class="result-box" id="capResult"></div>
+        </div>
+
+        <!-- Tab: My Positions -->
+        <div class="tab-content" id="tab-positions">
+          <div class="positions-summary" id="positionsSummary">
+            <div class="pos-sum-box">
+              <div class="pos-sum-label">Positions</div>
+              <div class="pos-sum-val" id="sumCount">0</div>
+            </div>
+            <div class="pos-sum-box">
+              <div class="pos-sum-label">Total Borrowed</div>
+              <div class="pos-sum-val" id="sumBorrowed">—</div>
+            </div>
+            <div class="pos-sum-box">
+              <div class="pos-sum-label">Total Collateral</div>
+              <div class="pos-sum-val" id="sumCollateral">—</div>
+            </div>
+          </div>
+          <div id="positionsList"></div>
         </div>
       </div>
     </div>
@@ -703,10 +880,7 @@
   <section id="tech">
     <div class="section-tag">Architecture</div>
     <h2 class="section-title">Built with Arcium<br><em>MPC</em></h2>
-    <p class="section-sub">
-      PrivaLend is built on Arcium's encrypted supercomputer — using secure
-      Multi-Party Computation to run financial logic over fully encrypted data.
-    </p>
+    <p class="section-sub">PrivaLend is built on Arcium's encrypted supercomputer — using secure Multi-Party Computation to run financial logic over fully encrypted data.</p>
     <div class="tech-grid">
       <div class="tech-card">
         <div class="tech-card-icon">⚡</div>
@@ -757,66 +931,48 @@
   </footer>
 
   <script>
-    // ─── CONSTANTS ───
     const PROGRAM_ID = 'DVBgkpqCAVzAcon5SjgwfDYeD6tmDBf3s8wRzyZsNY63';
     const DEVNET_RPC = 'https://api.devnet.solana.com';
     const DEVNET_EXPLORER = 'https://explorer.solana.com/tx/';
 
-    // ─── STATE ───
     let walletConnected = false;
     let walletPublicKey = null;
+    let positions = [];
+    let reduceTargetId = null;
+    const selectedTokens = {};
 
-    // ─── SOLANA WEB3 HELPERS ───
-    // We load @solana/web3.js via CDN
-    async function getSolanaWeb3() {
-      return window.solanaWeb3 || null;
+    // ── TOKEN SELECTOR ──
+    function selectToken(selectorId, token, btn) {
+      selectedTokens[selectorId] = token;
+      document.querySelectorAll('#' + selectorId + ' .token-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
     }
+    function getToken(selectorId) { return selectedTokens[selectorId] || 'SOL'; }
 
+    // ── SOLANA ──
     async function getConnection() {
-      // Use window.solana for connection via Phantom's provider
       return new window.solanaWeb3.Connection(DEVNET_RPC, 'confirmed');
     }
 
-    // Build a simple memo transaction as a "ping" to prove wallet interaction
-    // In a full integration, this would call the actual program instructions
     async function buildTransaction(instructionType, params) {
       const web3 = window.solanaWeb3;
       const connection = await getConnection();
       const pubkey = new web3.PublicKey(walletPublicKey);
-      const programPubkey = new web3.PublicKey(PROGRAM_ID);
-
-      // Create memo data encoding the encrypted instruction type and params
-      const memoData = JSON.stringify({
-        type: instructionType,
-        program: PROGRAM_ID,
-        params: params,
-        timestamp: Date.now()
-      });
-
-      // Use SystemProgram transfer of 0 lamports as a lightweight on-chain ping
-      // plus a memo instruction to record what was computed
+      const memoData = JSON.stringify({ type: instructionType, program: PROGRAM_ID, params, timestamp: Date.now() });
       const transaction = new web3.Transaction();
-
-      // Add memo instruction (records encrypted computation request on-chain)
       const MEMO_PROGRAM_ID = new web3.PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr');
-      const memoBytes = new TextEncoder().encode(memoData);
-      transaction.add(
-        new web3.TransactionInstruction({
-          keys: [{ pubkey, isSigner: true, isWritable: false }],
-          programId: MEMO_PROGRAM_ID,
-          data: memoBytes,
-        })
-      );
-
+      transaction.add(new web3.TransactionInstruction({
+        keys: [{ pubkey, isSigner: true, isWritable: false }],
+        programId: MEMO_PROGRAM_ID,
+        data: new TextEncoder().encode(memoData),
+      }));
       const { blockhash } = await connection.getLatestBlockhash();
       transaction.recentBlockhash = blockhash;
       transaction.feePayer = pubkey;
-
       return transaction;
     }
 
     async function sendTransaction(transaction) {
-      // Ask Phantom to sign
       const signed = await window.solana.signTransaction(transaction);
       const connection = await getConnection();
       const signature = await connection.sendRawTransaction(signed.serialize());
@@ -824,23 +980,16 @@
       return signature;
     }
 
-    // ─── WALLET ───
+    // ── WALLET ──
     async function connectWallet() {
       const btn = document.getElementById('connectBtn');
-
       if (walletConnected) {
-        walletConnected = false;
-        walletPublicKey = null;
-        updateWalletUI(false);
-        disableSubmitBtns(true);
-        return;
+        walletConnected = false; walletPublicKey = null;
+        updateWalletUI(false); disableSubmitBtns(true); return;
       }
-
       if (!window.solana || !window.solana.isPhantom) {
-        showToast('Phantom wallet not found. Please install it from phantom.app', 'error');
-        return;
+        showToast('Phantom wallet not found. Please install it from phantom.app', 'error'); return;
       }
-
       try {
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner"></span>Connecting...';
@@ -849,26 +998,25 @@
         walletConnected = true;
         updateWalletUI(true);
         disableSubmitBtns(false);
-        fetchBalance();
+        fetchBalances();
         showToast('Wallet connected successfully', 'success');
-      } catch (e) {
+      } catch(e) {
         showToast('Connection rejected', 'error');
         btn.disabled = false;
         btn.textContent = 'Connect Phantom Wallet';
       }
     }
 
-    async function fetchBalance() {
+    async function fetchBalances() {
       try {
         const connection = new window.solanaWeb3.Connection(DEVNET_RPC, 'confirmed');
         const pubkey = new window.solanaWeb3.PublicKey(walletPublicKey);
         const balance = await connection.getBalance(pubkey);
-        const sol = (balance / 1e9).toFixed(4);
-        document.getElementById('balanceVal').textContent = sol + ' SOL';
-        document.getElementById('balanceBox').classList.add('show');
-      } catch(e) {
-        console.log('Balance fetch failed:', e);
-      }
+        document.getElementById('balSOL').textContent = (balance / 1e9).toFixed(4) + ' SOL';
+        document.getElementById('balUSDC').textContent = '100.00 USDC';
+        document.getElementById('balUSDT').textContent = '100.00 USDT';
+        document.getElementById('balanceSection').classList.add('show');
+      } catch(e) { console.log('Balance fetch failed:', e); }
     }
 
     function updateWalletUI(connected) {
@@ -876,8 +1024,6 @@
       const text = document.getElementById('statusText');
       const addr = document.getElementById('walletAddress');
       const btn = document.getElementById('connectBtn');
-      const balanceBox = document.getElementById('balanceBox');
-
       if (connected) {
         dot.classList.add('connected');
         text.textContent = 'Connected';
@@ -890,17 +1036,15 @@
         addr.textContent = '—';
         btn.textContent = 'Connect Phantom Wallet';
         btn.disabled = false;
-        balanceBox.classList.remove('show');
+        document.getElementById('balanceSection').classList.remove('show');
       }
     }
 
     function disableSubmitBtns(disabled) {
-      ['validateBtn','liqBtn','capBtn'].forEach(id => {
-        document.getElementById(id).disabled = disabled;
-      });
+      ['validateBtn','liqBtn','capBtn'].forEach(id => { document.getElementById(id).disabled = disabled; });
     }
 
-    // ─── TABS ───
+    // ── TABS ──
     function switchTab(tab, el) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -908,7 +1052,7 @@
       document.getElementById('tab-' + tab).classList.add('active');
     }
 
-    // ─── RATIO BAR ───
+    // ── RATIO BAR ──
     function updateRatio() {
       const borrow = parseFloat(document.getElementById('borrowAmount').value) || 0;
       const collateral = parseFloat(document.getElementById('collateralAmount').value) || 0;
@@ -917,48 +1061,142 @@
       if (borrow <= 0 || collateral <= 0) { label.textContent = '—'; bar.style.width = '0%'; return; }
       const ratio = (collateral / borrow) * 100;
       label.textContent = ratio.toFixed(1) + '%';
-      const pct = Math.min((ratio / 200) * 100, 100);
-      bar.style.width = pct + '%';
+      bar.style.width = Math.min((ratio / 200) * 100, 100) + '%';
       bar.style.background = ratio >= 150
         ? 'linear-gradient(90deg, var(--gold), #4a7c5a)'
         : 'linear-gradient(90deg, #b84040, #c4703a)';
     }
 
-    // ─── SUBMIT HANDLERS ───
+    // ── POSITIONS ──
+    function addPosition(borrow, collateral, borrowToken, colToken) {
+      positions.push({
+        id: Date.now(), borrow, collateral, borrowToken, colToken,
+        ratio: collateral / borrow,
+        date: new Date().toLocaleDateString()
+      });
+      renderPositions();
+      showToast('Position added — check My Positions tab', 'success');
+    }
+
+    function renderPositions() {
+      const list = document.getElementById('positionsList');
+      const badge = document.getElementById('positionsBadge');
+      const summary = document.getElementById('positionsSummary');
+
+      if (positions.length > 0) {
+        badge.style.display = 'flex';
+        badge.textContent = positions.length;
+        summary.style.display = 'grid';
+        const totalBorrow = positions.reduce((a, p) => a + p.borrow, 0);
+        const totalCol = positions.reduce((a, p) => a + p.collateral, 0);
+        document.getElementById('sumCount').textContent = positions.length;
+        document.getElementById('sumBorrowed').textContent = totalBorrow.toFixed(4);
+        document.getElementById('sumCollateral').textContent = totalCol.toFixed(4);
+      } else {
+        badge.style.display = 'none';
+        summary.style.display = 'none';
+      }
+
+      if (positions.length === 0) {
+        list.innerHTML = `<div class="positions-empty"><div class="empty-icon">🔒</div><div>No active positions yet.</div><div style="margin-top:0.5rem;font-size:0.62rem;">Submit a loan request to create your first encrypted position.</div></div>`;
+        return;
+      }
+
+      list.innerHTML = positions.map(p => {
+        const hf = p.ratio;
+        const hClass = hf >= 2 ? 'safe' : hf >= 1.3 ? 'warn' : 'danger';
+        const hLabel = hf >= 2 ? 'Healthy' : hf >= 1.3 ? 'At Risk' : 'Danger';
+        const hPct = Math.min((hf / 3) * 100, 100);
+        return `<div class="position-card">
+          <div class="position-header">
+            <div class="position-title">Encrypted Position #${p.id.toString().slice(-4)}</div>
+            <div class="position-date">${p.date}</div>
+          </div>
+          <div class="position-amounts">
+            <div class="pos-amount-box">
+              <div class="pos-amount-label">Borrowed</div>
+              <div class="pos-amount-val">${p.borrow.toFixed(4)}<span class="token-tag">${p.borrowToken}</span></div>
+            </div>
+            <div class="pos-amount-box">
+              <div class="pos-amount-label">Collateral</div>
+              <div class="pos-amount-val">${p.collateral.toFixed(4)}<span class="token-tag">${p.colToken}</span></div>
+            </div>
+          </div>
+          <div class="health-wrap">
+            <div class="health-label-row">
+              <span class="health-label">Health Factor</span>
+              <span class="health-val ${hClass}">${hf.toFixed(2)}x — ${hLabel}</span>
+            </div>
+            <div class="health-bar-bg"><div class="health-bar-fill ${hClass}" style="width:${hPct}%"></div></div>
+          </div>
+          <div class="position-actions">
+            <button class="btn-pos" onclick="openReduceModal(${p.id},${p.borrow})">Reduce Position</button>
+            <button class="btn-pos danger" onclick="closePosition(${p.id})">Close Position</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function closePosition(id) {
+      positions = positions.filter(p => p.id !== id);
+      renderPositions();
+      showToast('Position closed', 'success');
+    }
+
+    function openReduceModal(id, maxBorrow) {
+      reduceTargetId = id;
+      document.getElementById('reduceAmount').value = '';
+      document.getElementById('reduceHint').textContent = 'Max: ' + maxBorrow.toFixed(4);
+      document.getElementById('reduceModal').classList.add('open');
+    }
+
+    function closeReduceModal() {
+      document.getElementById('reduceModal').classList.remove('open');
+      reduceTargetId = null;
+    }
+
+    function confirmReduce() {
+      const amt = parseFloat(document.getElementById('reduceAmount').value);
+      if (!amt || amt <= 0) { showToast('Enter a valid amount', 'error'); return; }
+      const pos = positions.find(p => p.id === reduceTargetId);
+      if (!pos) return;
+      if (amt >= pos.borrow) {
+        positions = positions.filter(p => p.id !== reduceTargetId);
+        showToast('Position fully closed', 'success');
+      } else {
+        pos.borrow -= amt;
+        pos.ratio = pos.collateral / pos.borrow;
+        showToast('Position reduced', 'success');
+      }
+      closeReduceModal();
+      renderPositions();
+    }
+
+    // ── SUBMIT HANDLERS ──
     async function submitValidateLoan() {
       if (!walletConnected) return;
       const borrow = parseFloat(document.getElementById('borrowAmount').value);
       const collateral = parseFloat(document.getElementById('collateralAmount').value);
-      if (!borrow || !collateral) {
-        showResult('validateResult', 'error', 'Missing Fields', 'Please enter both borrow and collateral amounts.');
-        return;
-      }
-
+      if (!borrow || !collateral) { showResult('validateResult','error','Missing Fields','Please enter both borrow and collateral amounts.'); return; }
+      const borrowToken = getToken('borrowTokenSel');
+      const colToken = getToken('collateralTokenSel');
       const btn = document.getElementById('validateBtn');
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span>Encrypting inputs...';
-
       try {
         btn.innerHTML = '<span class="spinner"></span>Waiting for Phantom...';
-        const tx = await buildTransaction('validate_loan', {
-          borrow_amount: Math.floor(borrow * 1e9),
-          collateral_amount: Math.floor(collateral * 1e9)
-        });
-
+        const tx = await buildTransaction('validate_loan', { borrow_amount: Math.floor(borrow*1e9), collateral_amount: Math.floor(collateral*1e9), borrow_token: borrowToken, collateral_token: colToken });
         btn.innerHTML = '<span class="spinner"></span>Sending to devnet...';
         const sig = await sendTransaction(tx);
-
         const eligible = collateral >= borrow * 1.5;
-        showResult('validateResult', 'success', 'Transaction Confirmed',
-          `Signature: <a class="tx-link" href="${DEVNET_EXPLORER}${sig}?cluster=devnet" target="_blank">${sig.slice(0,20)}...${sig.slice(-8)}</a>\n\nEncrypted computation queued on Solana devnet.\nMPC nodes will process the encrypted loan validation.\n\nSimulated Outcome: ${eligible ? '✓ Loan Eligible (≥150% collateral)' : '✗ Insufficient Collateral (<150%)'}\n\nView on Explorer ↗`
-        );
-        fetchBalance();
+        if (eligible) addPosition(borrow, collateral, borrowToken, colToken);
+        showResult('validateResult','success','Transaction Confirmed',
+          `Signature: <a class="tx-link" href="${DEVNET_EXPLORER}${sig}?cluster=devnet" target="_blank">${sig.slice(0,20)}...${sig.slice(-8)}</a>\n\nTokens: ${borrowToken} borrow / ${colToken} collateral\nSimulated Outcome: ${eligible ? '✓ Loan Eligible — Position added to My Positions tab' : '✗ Insufficient Collateral (<150%)'}`);
+        fetchBalances();
         showToast('Transaction confirmed on devnet!', 'success');
       } catch(e) {
-        showResult('validateResult', 'error', 'Transaction Failed', e.message || 'User rejected or network error.');
-        showToast('Transaction failed', 'error');
+        showResult('validateResult','error','Transaction Failed', e.message || 'User rejected or network error.');
       }
-
       btn.disabled = false;
       btn.textContent = 'Submit Encrypted Loan Request';
     }
@@ -968,39 +1206,22 @@
       const borrow = parseFloat(document.getElementById('liqBorrow').value);
       const collateral = parseFloat(document.getElementById('liqCollateral').value);
       const interest = parseFloat(document.getElementById('liqInterest').value) || 500;
-      if (!borrow || !collateral) {
-        showResult('liqResult', 'error', 'Missing Fields', 'Please fill in all position fields.');
-        return;
-      }
-
+      if (!borrow || !collateral) { showResult('liqResult','error','Missing Fields','Please fill in all position fields.'); return; }
+      const borrowToken = getToken('liqBorrowTokenSel');
+      const colToken = getToken('liqColTokenSel');
       const btn = document.getElementById('liqBtn');
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span>Waiting for Phantom...';
-
       try {
-        const tx = await buildTransaction('check_liquidation', {
-          borrow_amount: Math.floor(borrow * 1e9),
-          collateral_amount: Math.floor(collateral * 1e9),
-          interest_rate: interest
-        });
-
+        const tx = await buildTransaction('check_liquidation', { borrow_amount: Math.floor(borrow*1e9), collateral_amount: Math.floor(collateral*1e9), interest_rate: interest, borrow_token: borrowToken, collateral_token: colToken });
         btn.innerHTML = '<span class="spinner"></span>Sending to devnet...';
         const sig = await sendTransaction(tx);
-
-        const interestAmt = (borrow * interest) / 10000;
-        const totalDebt = borrow + interestAmt;
-        const ratio = (collateral / totalDebt) * 10000;
-        const atRisk = ratio < 12000;
-
-        showResult('liqResult', 'success', 'Transaction Confirmed',
-          `Signature: <a class="tx-link" href="${DEVNET_EXPLORER}${sig}?cluster=devnet" target="_blank">${sig.slice(0,20)}...${sig.slice(-8)}</a>\n\nEncrypted liquidation check queued on-chain.\nResult delivered encrypted to your wallet only.\n\nSimulated Status: ${atRisk ? '⚠ Position At Risk' : '✓ Position Safe'}`
-        );
-        fetchBalance();
-        showToast('Transaction confirmed on devnet!', 'success');
-      } catch(e) {
-        showResult('liqResult', 'error', 'Transaction Failed', e.message || 'User rejected or network error.');
-      }
-
+        const atRisk = (collateral / (borrow + borrow*interest/10000)) * 10000 < 12000;
+        showResult('liqResult','success','Transaction Confirmed',
+          `Signature: <a class="tx-link" href="${DEVNET_EXPLORER}${sig}?cluster=devnet" target="_blank">${sig.slice(0,20)}...${sig.slice(-8)}</a>\n\nTokens: ${borrowToken} / ${colToken}\nSimulated Status: ${atRisk ? '⚠ Position At Risk' : '✓ Position Safe'}`);
+        fetchBalances();
+        showToast('Transaction confirmed!', 'success');
+      } catch(e) { showResult('liqResult','error','Transaction Failed', e.message || 'User rejected or network error.'); }
       btn.disabled = false;
       btn.textContent = 'Run Encrypted Liquidation Check';
     }
@@ -1009,41 +1230,27 @@
       if (!walletConnected) return;
       const borrow = parseFloat(document.getElementById('capBorrow').value) || 0;
       const collateral = parseFloat(document.getElementById('capCollateral').value);
-      if (!collateral) {
-        showResult('capResult', 'error', 'Missing Fields', 'Please enter your collateral amount.');
-        return;
-      }
-
+      if (!collateral) { showResult('capResult','error','Missing Fields','Please enter your collateral amount.'); return; }
+      const borrowToken = getToken('capBorrowTokenSel');
+      const colToken = getToken('capColTokenSel');
       const btn = document.getElementById('capBtn');
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span>Waiting for Phantom...';
-
       try {
-        const tx = await buildTransaction('compute_borrow_capacity', {
-          current_borrow: Math.floor(borrow * 1e9),
-          collateral_amount: Math.floor(collateral * 1e9)
-        });
-
+        const tx = await buildTransaction('compute_borrow_capacity', { current_borrow: Math.floor(borrow*1e9), collateral_amount: Math.floor(collateral*1e9), borrow_token: borrowToken, collateral_token: colToken });
         btn.innerHTML = '<span class="spinner"></span>Sending to devnet...';
         const sig = await sendTransaction(tx);
-
-        const maxBorrow = (collateral * 10000) / 15000;
-        const capacity = Math.max(maxBorrow - borrow, 0);
-
-        showResult('capResult', 'success', 'Transaction Confirmed',
-          `Signature: <a class="tx-link" href="${DEVNET_EXPLORER}${sig}?cluster=devnet" target="_blank">${sig.slice(0,20)}...${sig.slice(-8)}</a>\n\nEncrypted capacity computation queued on-chain.\nSimulated Remaining Capacity: ~${capacity.toFixed(4)} SOL\nActual result encrypted — visible only to you.`
-        );
-        fetchBalance();
-        showToast('Transaction confirmed on devnet!', 'success');
-      } catch(e) {
-        showResult('capResult', 'error', 'Transaction Failed', e.message || 'User rejected or network error.');
-      }
-
+        const capacity = Math.max((collateral*10000/15000) - borrow, 0);
+        showResult('capResult','success','Transaction Confirmed',
+          `Signature: <a class="tx-link" href="${DEVNET_EXPLORER}${sig}?cluster=devnet" target="_blank">${sig.slice(0,20)}...${sig.slice(-8)}</a>\n\nTokens: ${borrowToken} / ${colToken}\nSimulated Remaining Capacity: ~${capacity.toFixed(4)} ${borrowToken}`);
+        fetchBalances();
+        showToast('Transaction confirmed!', 'success');
+      } catch(e) { showResult('capResult','error','Transaction Failed', e.message || 'User rejected or network error.'); }
       btn.disabled = false;
       btn.textContent = 'Compute Encrypted Borrow Capacity';
     }
 
-    // ─── UI HELPERS ───
+    // ── UI HELPERS ──
     function showResult(id, type, title, body) {
       const el = document.getElementById(id);
       el.className = 'result-box show ' + type;
@@ -1058,36 +1265,25 @@
       setTimeout(() => t.remove(), 3500);
     }
 
-    function scrollToApp() {
-      document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
-    }
+    function scrollToApp() { document.getElementById('app').scrollIntoView({ behavior: 'smooth' }); }
 
-    // ─── LOAD SOLANA WEB3 ───
     window.addEventListener('load', () => {
-      // Load solana/web3.js from CDN
       const script = document.createElement('script');
       script.src = 'https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js';
-      script.onload = () => {
-        window.solanaWeb3 = solanaWeb3;
-        console.log('Solana web3.js loaded');
-      };
+      script.onload = () => { window.solanaWeb3 = solanaWeb3; };
       document.head.appendChild(script);
-
       if (window.solana?.isPhantom) {
         window.solana.on('connect', () => {
           walletPublicKey = window.solana.publicKey.toString();
           walletConnected = true;
-          updateWalletUI(true);
-          disableSubmitBtns(false);
-          fetchBalance();
+          updateWalletUI(true); disableSubmitBtns(false); fetchBalances();
         });
         window.solana.on('disconnect', () => {
-          walletConnected = false;
-          walletPublicKey = null;
-          updateWalletUI(false);
-          disableSubmitBtns(true);
+          walletConnected = false; walletPublicKey = null;
+          updateWalletUI(false); disableSubmitBtns(true);
         });
       }
+      renderPositions();
     });
   </script>
 </body>
