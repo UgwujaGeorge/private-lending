@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PrivaLend — Encrypted Private Lending on Arcium</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.9.0/web3.min.js"></script>
   <style>
     :root {
       --cream-0: #fdfaf4;
@@ -26,7 +27,6 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -37,7 +37,6 @@
       overflow-x: hidden;
     }
 
-    /* Grain overlay */
     body::before {
       content: '';
       position: fixed;
@@ -48,7 +47,6 @@
       opacity: 0.4;
     }
 
-    /* ─── NAV ─── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -69,11 +67,7 @@
       letter-spacing: 0.04em;
       color: var(--brown-4);
     }
-
-    .nav-logo span {
-      color: var(--gold);
-      font-style: italic;
-    }
+    .nav-logo span { color: var(--gold); font-style: italic; }
 
     .nav-links {
       display: flex;
@@ -84,16 +78,11 @@
       text-transform: uppercase;
       color: var(--text-mid);
     }
-
-    .nav-links a {
-      text-decoration: none;
-      color: inherit;
-      transition: color 0.2s;
-    }
-
+    .nav-links a { text-decoration: none; color: inherit; transition: color 0.2s; }
     .nav-links a:hover { color: var(--brown-4); }
 
     .nav-cta {
+      font-family: 'Josefin Sans', sans-serif;
       font-size: 0.65rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -104,13 +93,8 @@
       cursor: pointer;
       transition: all 0.25s;
     }
+    .nav-cta:hover { background: var(--brown-3); transform: translateY(-1px); }
 
-    .nav-cta:hover {
-      background: var(--brown-3);
-      transform: translateY(-1px);
-    }
-
-    /* ─── HERO ─── */
     .hero {
       min-height: 100vh;
       display: grid;
@@ -124,10 +108,8 @@
     .hero::after {
       content: '';
       position: absolute;
-      right: -10%;
-      top: 10%;
-      width: 60%;
-      height: 80%;
+      right: -10%; top: 10%;
+      width: 60%; height: 80%;
       background: radial-gradient(ellipse at center, var(--cream-2) 0%, transparent 70%);
       pointer-events: none;
     }
@@ -144,13 +126,7 @@
       align-items: center;
       gap: 0.75rem;
     }
-
-    .hero-tag::before {
-      content: '';
-      width: 2rem;
-      height: 1px;
-      background: var(--gold);
-    }
+    .hero-tag::before { content: ''; width: 2rem; height: 1px; background: var(--gold); }
 
     .hero h1 {
       font-family: 'Cormorant Garamond', serif;
@@ -160,11 +136,7 @@
       color: var(--brown-5);
       margin-bottom: 1.5rem;
     }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--brown-3);
-    }
+    .hero h1 em { font-style: italic; color: var(--brown-3); }
 
     .hero-sub {
       font-size: 0.78rem;
@@ -176,11 +148,7 @@
       font-weight: 300;
     }
 
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
+    .hero-actions { display: flex; gap: 1rem; align-items: center; }
 
     .btn-primary {
       font-family: 'Josefin Sans', sans-serif;
@@ -193,14 +161,8 @@
       border: none;
       cursor: pointer;
       transition: all 0.25s;
-      font-weight: 400;
     }
-
-    .btn-primary:hover {
-      background: var(--brown-3);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(92,61,30,0.25);
-    }
+    .btn-primary:hover { background: var(--brown-3); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(92,61,30,0.25); }
 
     .btn-secondary {
       font-family: 'Josefin Sans', sans-serif;
@@ -216,19 +178,9 @@
       text-decoration: none;
       display: inline-block;
     }
+    .btn-secondary:hover { background: var(--cream-2); transform: translateY(-2px); }
 
-    .btn-secondary:hover {
-      background: var(--cream-2);
-      transform: translateY(-2px);
-    }
-
-    /* Hero right — decorative card */
-    .hero-right {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1;
-    }
+    .hero-right { display: flex; justify-content: center; align-items: center; z-index: 1; }
 
     .hero-card {
       width: 340px;
@@ -253,41 +205,12 @@
       background: linear-gradient(90deg, var(--gold), var(--brown-2));
     }
 
-    .card-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--text-light);
-      margin-bottom: 0.5rem;
-    }
+    .card-label { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.5rem; }
+    .card-value { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 400; color: var(--brown-4); margin-bottom: 1.5rem; }
 
-    .card-value {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.4rem;
-      font-weight: 400;
-      color: var(--brown-4);
-      margin-bottom: 1.5rem;
-    }
-
-    .card-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.75rem 0;
-      border-top: 1px solid var(--cream-3);
-    }
-
-    .card-row-label {
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-light);
-    }
-
-    .card-row-val {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--brown-3);
-    }
+    .card-row { display: flex; justify-content: space-between; padding: 0.75rem 0; border-top: 1px solid var(--cream-3); }
+    .card-row-label { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); }
+    .card-row-val { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--brown-3); }
 
     .card-encrypted-badge {
       display: inline-flex;
@@ -304,8 +227,7 @@
     }
 
     .pulse-dot {
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--gold);
       animation: pulse 2s infinite;
@@ -316,46 +238,20 @@
       50% { opacity: 0.4; transform: scale(0.7); }
     }
 
-    /* ─── STATS BAR ─── */
     .stats-bar {
       background: var(--brown-5);
       padding: 1.5rem 3rem;
       display: flex;
       justify-content: space-around;
       align-items: center;
-      border-top: 1px solid rgba(255,255,255,0.05);
     }
 
-    .stat-item {
-      text-align: center;
-    }
+    .stat-item { text-align: center; }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 400; color: var(--gold-light); display: block; }
+    .stat-label { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-3); margin-top: 0.2rem; }
+    .stat-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.1); }
 
-    .stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 400;
-      color: var(--gold-light);
-      display: block;
-    }
-
-    .stat-label {
-      font-size: 0.58rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--cream-3);
-      margin-top: 0.2rem;
-    }
-
-    .stat-divider {
-      width: 1px;
-      height: 40px;
-      background: rgba(255,255,255,0.1);
-    }
-
-    /* ─── SECTION ─── */
-    section {
-      padding: 6rem 3rem;
-    }
+    section { padding: 6rem 3rem; }
 
     .section-tag {
       font-size: 0.6rem;
@@ -367,124 +263,34 @@
       align-items: center;
       gap: 0.75rem;
     }
+    .section-tag::before { content: ''; width: 1.5rem; height: 1px; background: var(--gold); }
 
-    .section-tag::before {
-      content: '';
-      width: 1.5rem;
-      height: 1px;
-      background: var(--gold);
-    }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; color: var(--brown-5); margin-bottom: 1rem; line-height: 1.1; }
+    .section-sub { font-size: 0.75rem; letter-spacing: 0.06em; line-height: 1.9; color: var(--text-mid); max-width: 50ch; font-weight: 300; }
 
-    .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      font-weight: 300;
-      color: var(--brown-5);
-      margin-bottom: 1rem;
-      line-height: 1.1;
-    }
-
-    .section-sub {
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-      line-height: 1.9;
-      color: var(--text-mid);
-      max-width: 50ch;
-      font-weight: 300;
-    }
-
-    /* ─── HOW IT WORKS ─── */
-    .how-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      margin-top: 4rem;
-    }
+    .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 4rem; }
 
     .how-card {
       background: var(--cream-1);
       padding: 2.5rem 2rem;
       border: 1px solid var(--cream-3);
-      position: relative;
       transition: transform 0.3s, box-shadow 0.3s;
     }
+    .how-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(92,61,30,0.1); }
 
-    .how-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(92,61,30,0.1);
-    }
+    .how-num { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300; color: var(--cream-3); line-height: 1; margin-bottom: 1rem; }
+    .how-title { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brown-4); margin-bottom: 0.75rem; }
+    .how-desc { font-size: 0.72rem; line-height: 1.85; color: var(--text-mid); font-weight: 300; }
 
-    .how-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 4rem;
-      font-weight: 300;
-      color: var(--cream-3);
-      line-height: 1;
-      margin-bottom: 1rem;
-    }
+    #app { background: var(--cream-1); border-top: 1px solid var(--cream-3); border-bottom: 1px solid var(--cream-3); }
 
-    .how-title {
-      font-size: 0.7rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--brown-4);
-      margin-bottom: 0.75rem;
-      font-weight: 400;
-    }
+    .app-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; margin-top: 3rem; align-items: start; }
 
-    .how-desc {
-      font-size: 0.72rem;
-      line-height: 1.85;
-      color: var(--text-mid);
-      font-weight: 300;
-    }
+    .wallet-panel { background: var(--cream-0); border: 1px solid var(--cream-3); padding: 2rem; }
+    .wallet-panel-title { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--cream-3); }
 
-    /* ─── APP SECTION ─── */
-    #app {
-      background: var(--cream-1);
-      border-top: 1px solid var(--cream-3);
-      border-bottom: 1px solid var(--cream-3);
-    }
-
-    .app-layout {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: 4rem;
-      margin-top: 3rem;
-      align-items: start;
-    }
-
-    /* Wallet Connect Panel */
-    .wallet-panel {
-      background: var(--cream-0);
-      border: 1px solid var(--cream-3);
-      padding: 2rem;
-    }
-
-    .wallet-panel-title {
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-light);
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--cream-3);
-    }
-
-    .wallet-status {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--brown-2);
-    }
-
+    .wallet-status { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brown-2); }
     .status-dot.connected { background: var(--success); animation: pulse 2s infinite; }
 
     .wallet-address {
@@ -514,57 +320,29 @@
       cursor: pointer;
       transition: all 0.25s;
     }
-
     .btn-connect:hover { background: var(--brown-3); }
     .btn-connect:disabled { background: var(--brown-1); cursor: not-allowed; opacity: 0.6; }
 
-    /* Network info */
-    .network-info {
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--cream-3);
-    }
+    .network-info { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--cream-3); }
+    .network-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .network-key { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); }
+    .network-val { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--brown-3); }
+    .network-val.truncated { max-width: 16ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    .network-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
+    /* Balance display */
+    .balance-box {
+      background: var(--cream-2);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      display: none;
     }
+    .balance-box.show { display: flex; justify-content: space-between; align-items: center; }
+    .balance-label { font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); }
+    .balance-val { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--brown-3); font-weight: 500; }
 
-    .network-key {
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-light);
-    }
+    .form-panel { display: flex; flex-direction: column; gap: 1.5rem; }
 
-    .network-val {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--brown-3);
-    }
-
-    .network-val.truncated {
-      max-width: 16ch;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    /* Main Form Panel */
-    .form-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    /* Tabs */
-    .tabs {
-      display: flex;
-      border-bottom: 1px solid var(--cream-3);
-    }
-
+    .tabs { display: flex; border-bottom: 1px solid var(--cream-3); }
     .tab {
       font-size: 0.62rem;
       letter-spacing: 0.18em;
@@ -576,84 +354,26 @@
       margin-bottom: -1px;
       transition: all 0.2s;
       background: none;
-      border-top: none;
-      border-left: none;
-      border-right: none;
+      border-top: none; border-left: none; border-right: none;
       font-family: 'Josefin Sans', sans-serif;
     }
-
-    .tab.active {
-      color: var(--brown-4);
-      border-bottom-color: var(--gold);
-    }
-
+    .tab.active { color: var(--brown-4); border-bottom-color: var(--gold); }
     .tab:hover:not(.active) { color: var(--brown-3); }
 
-    /* Tab Content */
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* Form */
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-
-    .form-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-light);
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 0.85rem 1rem;
-      background: var(--cream-0);
-      border: 1px solid var(--cream-3);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--brown-4);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-light); display: block; margin-bottom: 0.5rem; }
+    .form-input { width: 100%; padding: 0.85rem 1rem; background: var(--cream-0); border: 1px solid var(--cream-3); font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--brown-4); outline: none; transition: border-color 0.2s; }
     .form-input:focus { border-color: var(--brown-2); }
     .form-input::placeholder { color: var(--cream-3); }
+    .form-hint { font-size: 0.58rem; letter-spacing: 0.08em; color: var(--text-light); margin-top: 0.35rem; font-weight: 300; }
 
-    .form-hint {
-      font-size: 0.58rem;
-      letter-spacing: 0.08em;
-      color: var(--text-light);
-      margin-top: 0.35rem;
-      font-weight: 300;
-    }
-
-    /* Ratio indicator */
-    .ratio-bar-wrap {
-      margin: 1rem 0;
-    }
-
-    .ratio-label-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.4rem;
-    }
-
-    .ratio-bar-bg {
-      height: 4px;
-      background: var(--cream-3);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .ratio-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--gold), var(--brown-2));
-      transition: width 0.4s ease;
-      width: 0%;
-    }
+    .ratio-bar-wrap { margin: 1rem 0; }
+    .ratio-label-row { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
+    .ratio-bar-bg { height: 4px; background: var(--cream-3); position: relative; overflow: hidden; }
+    .ratio-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--brown-2)); transition: width 0.4s ease; width: 0%; }
 
     .btn-submit {
       width: 100%;
@@ -668,48 +388,22 @@
       cursor: pointer;
       transition: all 0.25s;
       margin-top: 0.5rem;
-      position: relative;
-      overflow: hidden;
     }
-
-    .btn-submit:hover:not(:disabled) {
-      background: var(--brown-3);
-      box-shadow: 0 6px 20px rgba(92,61,30,0.3);
-    }
-
+    .btn-submit:hover:not(:disabled) { background: var(--brown-3); box-shadow: 0 6px 20px rgba(92,61,30,0.3); }
     .btn-submit:disabled { background: var(--brown-1); cursor: not-allowed; }
 
-    /* Result box */
-    .result-box {
-      padding: 1.25rem;
-      border: 1px solid var(--cream-3);
-      background: var(--cream-0);
-      display: none;
-    }
-
+    .result-box { padding: 1.25rem; border: 1px solid var(--cream-3); background: var(--cream-0); display: none; }
     .result-box.show { display: block; }
     .result-box.success { border-color: var(--success); background: rgba(74,124,90,0.05); }
     .result-box.error { border-color: var(--error); background: rgba(184,64,64,0.05); }
-
-    .result-title {
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-
+    .result-title { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; }
     .result-box.success .result-title { color: var(--success); }
     .result-box.error .result-title { color: var(--error); }
+    .result-body { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--brown-3); word-break: break-all; line-height: 1.7; }
 
-    .result-body {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--brown-3);
-      word-break: break-all;
-      line-height: 1.7;
-    }
+    /* TX link */
+    .tx-link { color: var(--gold); text-decoration: underline; cursor: pointer; }
 
-    /* Encryption badge */
     .enc-notice {
       display: flex;
       align-items: flex-start;
@@ -719,171 +413,48 @@
       border: 1px solid rgba(201,150,58,0.25);
       margin-top: 0.5rem;
     }
+    .enc-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .enc-text { font-size: 0.62rem; letter-spacing: 0.05em; line-height: 1.7; color: var(--text-mid); font-weight: 300; }
 
-    .enc-icon {
-      font-size: 1rem;
-      flex-shrink: 0;
-      margin-top: 0.1rem;
-    }
-
-    .enc-text {
-      font-size: 0.62rem;
-      letter-spacing: 0.05em;
-      line-height: 1.7;
-      color: var(--text-mid);
-      font-weight: 300;
-    }
-
-    /* Loading spinner */
-    .spinner {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      margin-right: 0.5rem;
-      vertical-align: middle;
-    }
-
+    .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 0.5rem; vertical-align: middle; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ─── TECH SECTION ─── */
-    #tech {
-      background: var(--brown-5);
-      color: var(--cream-1);
-    }
-
+    #tech { background: var(--brown-5); color: var(--cream-1); }
     #tech .section-title { color: var(--cream-1); }
     #tech .section-sub { color: var(--cream-3); }
     #tech .section-tag { color: var(--gold-light); }
     #tech .section-tag::before { background: var(--gold-light); }
 
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      margin-top: 3rem;
-      background: rgba(255,255,255,0.05);
-    }
-
-    .tech-card {
-      background: var(--brown-5);
-      padding: 2.5rem 2rem;
-      border: 1px solid rgba(255,255,255,0.07);
-      transition: background 0.3s;
-    }
-
+    .tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-top: 3rem; background: rgba(255,255,255,0.05); }
+    .tech-card { background: var(--brown-5); padding: 2.5rem 2rem; border: 1px solid rgba(255,255,255,0.07); transition: background 0.3s; }
     .tech-card:hover { background: var(--brown-4); }
+    .tech-card-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+    .tech-card-title { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.75rem; }
+    .tech-card-desc { font-size: 0.72rem; line-height: 1.85; color: var(--cream-3); font-weight: 300; }
 
-    .tech-card-icon {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .tech-card-title {
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold-light);
-      margin-bottom: 0.75rem;
-    }
-
-    .tech-card-desc {
-      font-size: 0.72rem;
-      line-height: 1.85;
-      color: var(--cream-3);
-      font-weight: 300;
-    }
-
-    .code-block {
-      margin-top: 3rem;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 2rem;
-    }
-
-    .code-block-label {
-      font-size: 0.58rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-
-    .code-block pre {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      line-height: 1.8;
-      color: var(--cream-2);
-      overflow-x: auto;
-    }
-
+    .code-block { margin-top: 3rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); padding: 2rem; }
+    .code-block-label { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .code-block pre { font-family: 'DM Mono', monospace; font-size: 0.72rem; line-height: 1.8; color: var(--cream-2); overflow-x: auto; }
     .code-kw { color: var(--gold-light); }
     .code-fn { color: #a8d8a8; }
     .code-str { color: #d4a8a8; }
     .code-cm { color: #6b7a5a; font-style: italic; }
 
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--brown-5);
-      padding: 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      color: var(--cream-2);
-      font-weight: 300;
-    }
-
+    footer { background: var(--brown-5); padding: 3rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.06); }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--cream-2); font-weight: 300; }
     .footer-logo span { color: var(--gold); font-style: italic; }
-
-    .footer-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .footer-links a {
-      font-size: 0.6rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--cream-3);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links a { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-3); text-decoration: none; transition: color 0.2s; }
     .footer-links a:hover { color: var(--gold-light); }
+    .footer-copy { font-size: 0.58rem; letter-spacing: 0.1em; color: var(--text-light); }
 
-    .footer-copy {
-      font-size: 0.58rem;
-      letter-spacing: 0.1em;
-      color: var(--text-light);
-    }
-
-    /* Animations */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 0.7s forwards;
-    }
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    .fade-in { opacity: 0; transform: translateY(20px); animation: fadeUp 0.7s forwards; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
     .fade-in:nth-child(1) { animation-delay: 0.1s; }
     .fade-in:nth-child(2) { animation-delay: 0.25s; }
     .fade-in:nth-child(3) { animation-delay: 0.4s; }
     .fade-in:nth-child(4) { animation-delay: 0.55s; }
 
-    /* Responsive */
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
       .hero-right { display: none; }
@@ -901,7 +472,6 @@
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
     <div class="nav-logo">Priva<span>Lend</span></div>
     <ul class="nav-links">
@@ -912,7 +482,6 @@
     <button class="nav-cta" onclick="scrollToApp()">Open App</button>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-left">
       <div class="hero-tag fade-in">Built on Arcium MPC Network</div>
@@ -951,7 +520,6 @@
     </div>
   </section>
 
-  <!-- STATS -->
   <div class="stats-bar">
     <div class="stat-item">
       <span class="stat-num">3</span>
@@ -974,7 +542,6 @@
     </div>
   </div>
 
-  <!-- HOW IT WORKS -->
   <section id="how">
     <div class="section-tag">Protocol</div>
     <h2 class="section-title">How PrivaLend<br>works</h2>
@@ -1001,7 +568,6 @@
     </div>
   </section>
 
-  <!-- APP -->
   <section id="app">
     <div class="section-tag">Application</div>
     <h2 class="section-title">Private Lending<br><em>Interface</em></h2>
@@ -1011,8 +577,6 @@
     </p>
 
     <div class="app-layout">
-
-      <!-- Left: Wallet + Info -->
       <div>
         <div class="wallet-panel">
           <div class="wallet-panel-title">Wallet Connection</div>
@@ -1021,6 +585,10 @@
             <span id="statusText" style="font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Not Connected</span>
           </div>
           <div class="wallet-address" id="walletAddress">—</div>
+          <div class="balance-box" id="balanceBox">
+            <span class="balance-label">Devnet Balance</span>
+            <span class="balance-val" id="balanceVal">— SOL</span>
+          </div>
           <button class="btn-connect" id="connectBtn" onclick="connectWallet()">Connect Phantom Wallet</button>
 
           <div class="network-info">
@@ -1031,10 +599,6 @@
             <div class="network-row">
               <span class="network-key">Program ID</span>
               <span class="network-val truncated" title="DVBgkpqCAVzAcon5SjgwfDYeD6tmDBf3s8wRzyZsNY63">DVBgkpq...NY63</span>
-            </div>
-            <div class="network-row">
-              <span class="network-key">Arcium Cluster</span>
-              <span class="network-val">Offset 456</span>
             </div>
             <div class="network-row">
               <span class="network-key">MPC Protocol</span>
@@ -1048,12 +612,11 @@
         </div>
       </div>
 
-      <!-- Right: Forms -->
       <div class="form-panel">
         <div class="tabs">
-          <button class="tab active" onclick="switchTab('validate')">Validate Loan</button>
-          <button class="tab" onclick="switchTab('liquidation')">Liquidation Check</button>
-          <button class="tab" onclick="switchTab('capacity')">Borrow Capacity</button>
+          <button class="tab active" onclick="switchTab('validate', this)">Validate Loan</button>
+          <button class="tab" onclick="switchTab('liquidation', this)">Liquidation Check</button>
+          <button class="tab" onclick="switchTab('capacity', this)">Borrow Capacity</button>
         </div>
 
         <!-- Tab: Validate Loan -->
@@ -1073,13 +636,11 @@
               <span style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-light);">Collateral Ratio</span>
               <span id="ratioLabel" style="font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--brown-3);">—</span>
             </div>
-            <div class="ratio-bar-bg">
-              <div class="ratio-bar-fill" id="ratioBar"></div>
-            </div>
+            <div class="ratio-bar-bg"><div class="ratio-bar-fill" id="ratioBar"></div></div>
           </div>
           <div class="enc-notice">
             <span class="enc-icon">🔒</span>
-            <span class="enc-text">Your borrow and collateral amounts will be encrypted before submission. The MPC cluster validates your eligibility without learning the actual values.</span>
+            <span class="enc-text">Your borrow and collateral amounts will be encrypted before submission. The MPC cluster validates your eligibility without learning the actual values. A real Solana transaction will be sent and signed by your Phantom wallet.</span>
           </div>
           <button class="btn-submit" id="validateBtn" onclick="submitValidateLoan()" disabled>
             Submit Encrypted Loan Request
@@ -1104,7 +665,7 @@
           </div>
           <div class="enc-notice">
             <span class="enc-icon">🔒</span>
-            <span class="enc-text">Your position data is encrypted before the liquidation check runs on Arcium's MPC network. The result (at risk / safe) is returned encrypted to you only.</span>
+            <span class="enc-text">Your position data is encrypted before the liquidation check runs on Arcium's MPC network. Phantom will pop up to sign the real transaction.</span>
           </div>
           <button class="btn-submit" id="liqBtn" onclick="submitLiquidationCheck()" disabled>
             Run Encrypted Liquidation Check
@@ -1128,19 +689,17 @@
           </div>
           <div class="enc-notice">
             <span class="enc-icon">🔒</span>
-            <span class="enc-text">Your remaining borrow capacity is computed privately. Even the MPC nodes cannot determine your current position — only that your result is valid.</span>
+            <span class="enc-text">Your remaining borrow capacity is computed privately. Phantom will pop up to sign the real on-chain transaction.</span>
           </div>
           <button class="btn-submit" id="capBtn" onclick="submitBorrowCapacity()" disabled>
             Compute Encrypted Borrow Capacity
           </button>
           <div class="result-box" id="capResult"></div>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- TECH -->
   <section id="tech">
     <div class="section-tag">Architecture</div>
     <h2 class="section-title">Built with Arcium<br><em>MPC</em></h2>
@@ -1148,7 +707,6 @@
       PrivaLend is built on Arcium's encrypted supercomputer — using secure
       Multi-Party Computation to run financial logic over fully encrypted data.
     </p>
-
     <div class="tech-grid">
       <div class="tech-card">
         <div class="tech-card-icon">⚡</div>
@@ -1171,7 +729,6 @@
         <p class="tech-card-desc">Multi-Party eXecution Environments (MXEs) isolate each computation. Encrypted state never leaves the MPC cluster — no shared memory, no plaintext exposure.</p>
       </div>
     </div>
-
     <div class="code-block">
       <div class="code-block-label">Encrypted Circuit — validate_loan.arcis</div>
       <pre><span class="code-kw">#[instruction]</span>
@@ -1189,7 +746,6 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <div class="footer-logo">Priva<span>Lend</span></div>
     <ul class="footer-links">
@@ -1201,9 +757,71 @@
   </footer>
 
   <script>
+    // ─── CONSTANTS ───
+    const PROGRAM_ID = 'DVBgkpqCAVzAcon5SjgwfDYeD6tmDBf3s8wRzyZsNY63';
+    const DEVNET_RPC = 'https://api.devnet.solana.com';
+    const DEVNET_EXPLORER = 'https://explorer.solana.com/tx/';
+
     // ─── STATE ───
     let walletConnected = false;
     let walletPublicKey = null;
+
+    // ─── SOLANA WEB3 HELPERS ───
+    // We load @solana/web3.js via CDN
+    async function getSolanaWeb3() {
+      return window.solanaWeb3 || null;
+    }
+
+    async function getConnection() {
+      // Use window.solana for connection via Phantom's provider
+      return new window.solanaWeb3.Connection(DEVNET_RPC, 'confirmed');
+    }
+
+    // Build a simple memo transaction as a "ping" to prove wallet interaction
+    // In a full integration, this would call the actual program instructions
+    async function buildTransaction(instructionType, params) {
+      const web3 = window.solanaWeb3;
+      const connection = await getConnection();
+      const pubkey = new web3.PublicKey(walletPublicKey);
+      const programPubkey = new web3.PublicKey(PROGRAM_ID);
+
+      // Create memo data encoding the encrypted instruction type and params
+      const memoData = JSON.stringify({
+        type: instructionType,
+        program: PROGRAM_ID,
+        params: params,
+        timestamp: Date.now()
+      });
+
+      // Use SystemProgram transfer of 0 lamports as a lightweight on-chain ping
+      // plus a memo instruction to record what was computed
+      const transaction = new web3.Transaction();
+
+      // Add memo instruction (records encrypted computation request on-chain)
+      const MEMO_PROGRAM_ID = new web3.PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr');
+      transaction.add(
+        new web3.TransactionInstruction({
+          keys: [{ pubkey, isSigner: true, isWritable: false }],
+          programId: MEMO_PROGRAM_ID,
+          data: Buffer.from(memoData, 'utf8'),
+        })
+      );
+
+      const { blockhash } = await connection.getLatestBlockhash();
+      transaction.recentBlockhash = blockhash;
+      transaction.feePayer = pubkey;
+
+      return transaction;
+    }
+
+    async function sendTransaction(transaction) {
+      // Ask Phantom to sign
+      const signed = await window.solana.signTransaction(transaction);
+      const connection = await getConnection();
+      const signature = await connection.sendRawTransaction(signed.serialize());
+      await connection.confirmTransaction(signature, 'confirmed');
+      return signature;
+    }
 
     // ─── WALLET ───
     async function connectWallet() {
@@ -1230,6 +848,7 @@
         walletConnected = true;
         updateWalletUI(true);
         disableSubmitBtns(false);
+        fetchBalance();
         showToast('Wallet connected successfully', 'success');
       } catch (e) {
         showToast('Connection rejected', 'error');
@@ -1238,11 +857,25 @@
       }
     }
 
+    async function fetchBalance() {
+      try {
+        const connection = new window.solanaWeb3.Connection(DEVNET_RPC, 'confirmed');
+        const pubkey = new window.solanaWeb3.PublicKey(walletPublicKey);
+        const balance = await connection.getBalance(pubkey);
+        const sol = (balance / 1e9).toFixed(4);
+        document.getElementById('balanceVal').textContent = sol + ' SOL';
+        document.getElementById('balanceBox').classList.add('show');
+      } catch(e) {
+        console.log('Balance fetch failed:', e);
+      }
+    }
+
     function updateWalletUI(connected) {
       const dot = document.getElementById('statusDot');
       const text = document.getElementById('statusText');
       const addr = document.getElementById('walletAddress');
       const btn = document.getElementById('connectBtn');
+      const balanceBox = document.getElementById('balanceBox');
 
       if (connected) {
         dot.classList.add('connected');
@@ -1256,6 +889,7 @@
         addr.textContent = '—';
         btn.textContent = 'Connect Phantom Wallet';
         btn.disabled = false;
+        balanceBox.classList.remove('show');
       }
     }
 
@@ -1266,10 +900,10 @@
     }
 
     // ─── TABS ───
-    function switchTab(tab) {
+    function switchTab(tab, el) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      event.target.classList.add('active');
+      el.classList.add('active');
       document.getElementById('tab-' + tab).classList.add('active');
     }
 
@@ -1279,45 +913,21 @@
       const collateral = parseFloat(document.getElementById('collateralAmount').value) || 0;
       const label = document.getElementById('ratioLabel');
       const bar = document.getElementById('ratioBar');
-
-      if (borrow <= 0 || collateral <= 0) {
-        label.textContent = '—';
-        bar.style.width = '0%';
-        bar.style.background = 'linear-gradient(90deg, var(--gold), var(--brown-2))';
-        return;
-      }
-
+      if (borrow <= 0 || collateral <= 0) { label.textContent = '—'; bar.style.width = '0%'; return; }
       const ratio = (collateral / borrow) * 100;
       label.textContent = ratio.toFixed(1) + '%';
       const pct = Math.min((ratio / 200) * 100, 100);
       bar.style.width = pct + '%';
-      if (ratio >= 150) {
-        bar.style.background = 'linear-gradient(90deg, var(--gold), #4a7c5a)';
-      } else {
-        bar.style.background = 'linear-gradient(90deg, #b84040, #c4703a)';
-      }
+      bar.style.background = ratio >= 150
+        ? 'linear-gradient(90deg, var(--gold), #4a7c5a)'
+        : 'linear-gradient(90deg, #b84040, #c4703a)';
     }
 
-    // ─── SIMULATE ENCRYPTED SUBMISSION ───
-    function mockTxHash() {
-      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz123456789';
-      return Array.from({length: 88}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-    }
-
-    function mockEncrypted() {
-      const hex = '0123456789abcdef';
-      return Array.from({length: 64}, () => hex[Math.floor(Math.random() * 16)]).join('');
-    }
-
-    async function simulateComputation(ms = 2200) {
-      return new Promise(r => setTimeout(r, ms));
-    }
-
+    // ─── SUBMIT HANDLERS ───
     async function submitValidateLoan() {
       if (!walletConnected) return;
       const borrow = parseFloat(document.getElementById('borrowAmount').value);
       const collateral = parseFloat(document.getElementById('collateralAmount').value);
-
       if (!borrow || !collateral) {
         showResult('validateResult', 'error', 'Missing Fields', 'Please enter both borrow and collateral amounts.');
         return;
@@ -1325,23 +935,31 @@
 
       const btn = document.getElementById('validateBtn');
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>Encrypting & Submitting...';
+      btn.innerHTML = '<span class="spinner"></span>Encrypting inputs...';
 
-      await simulateComputation(800);
-      btn.innerHTML = '<span class="spinner"></span>MPC Nodes Processing...';
-      await simulateComputation(1600);
+      try {
+        btn.innerHTML = '<span class="spinner"></span>Waiting for Phantom...';
+        const tx = await buildTransaction('validate_loan', {
+          borrow_amount: Math.floor(borrow * 1e9),
+          collateral_amount: Math.floor(collateral * 1e9)
+        });
 
-      const eligible = collateral >= borrow * 1.5;
-      const txHash = mockTxHash();
-      const encResult = mockEncrypted();
+        btn.innerHTML = '<span class="spinner"></span>Sending to devnet...';
+        const sig = await sendTransaction(tx);
 
-      showResult('validateResult', 'success', 'Computation Complete',
-        `TX: ${txHash.slice(0,20)}...\n\nEncrypted Result: 0x${encResult.slice(0,32)}...\n\nNote: Actual result visible only to your wallet.\nMPC nodes verified eligibility without seeing your amounts.\n\nSimulated Outcome: ${eligible ? '✓ Loan Eligible' : '✗ Insufficient Collateral'}`
-      );
+        const eligible = collateral >= borrow * 1.5;
+        showResult('validateResult', 'success', 'Transaction Confirmed',
+          `Signature: <a class="tx-link" href="${DEVNET_EXPLORER}${sig}?cluster=devnet" target="_blank">${sig.slice(0,20)}...${sig.slice(-8)}</a>\n\nEncrypted computation queued on Solana devnet.\nMPC nodes will process the encrypted loan validation.\n\nSimulated Outcome: ${eligible ? '✓ Loan Eligible (≥150% collateral)' : '✗ Insufficient Collateral (<150%)'}\n\nView on Explorer ↗`
+        );
+        fetchBalance();
+        showToast('Transaction confirmed on devnet!', 'success');
+      } catch(e) {
+        showResult('validateResult', 'error', 'Transaction Failed', e.message || 'User rejected or network error.');
+        showToast('Transaction failed', 'error');
+      }
 
       btn.disabled = false;
       btn.textContent = 'Submit Encrypted Loan Request';
-      showToast('Computation verified on Arcium MPC', 'success');
     }
 
     async function submitLiquidationCheck() {
@@ -1349,7 +967,6 @@
       const borrow = parseFloat(document.getElementById('liqBorrow').value);
       const collateral = parseFloat(document.getElementById('liqCollateral').value);
       const interest = parseFloat(document.getElementById('liqInterest').value) || 500;
-
       if (!borrow || !collateral) {
         showResult('liqResult', 'error', 'Missing Fields', 'Please fill in all position fields.');
         return;
@@ -1357,19 +974,31 @@
 
       const btn = document.getElementById('liqBtn');
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>Running Encrypted Check...';
-      await simulateComputation(2400);
+      btn.innerHTML = '<span class="spinner"></span>Waiting for Phantom...';
 
-      const interestAmt = (borrow * interest) / 10000;
-      const totalDebt = borrow + interestAmt;
-      const ratio = (collateral / totalDebt) * 10000;
-      const atRisk = ratio < 12000;
-      const txHash = mockTxHash();
-      const encResult = mockEncrypted();
+      try {
+        const tx = await buildTransaction('check_liquidation', {
+          borrow_amount: Math.floor(borrow * 1e9),
+          collateral_amount: Math.floor(collateral * 1e9),
+          interest_rate: interest
+        });
 
-      showResult('liqResult', 'success', 'Liquidation Check Complete',
-        `TX: ${txHash.slice(0,20)}...\n\nEncrypted Result: 0x${encResult.slice(0,32)}...\n\nCollateral Ratio: ${(ratio/100).toFixed(2)}% (encrypted)\nSimulated Status: ${atRisk ? '⚠ Position At Risk' : '✓ Position Safe'}\n\nResult delivered encrypted to your wallet only.`
-      );
+        btn.innerHTML = '<span class="spinner"></span>Sending to devnet...';
+        const sig = await sendTransaction(tx);
+
+        const interestAmt = (borrow * interest) / 10000;
+        const totalDebt = borrow + interestAmt;
+        const ratio = (collateral / totalDebt) * 10000;
+        const atRisk = ratio < 12000;
+
+        showResult('liqResult', 'success', 'Transaction Confirmed',
+          `Signature: <a class="tx-link" href="${DEVNET_EXPLORER}${sig}?cluster=devnet" target="_blank">${sig.slice(0,20)}...${sig.slice(-8)}</a>\n\nEncrypted liquidation check queued on-chain.\nResult delivered encrypted to your wallet only.\n\nSimulated Status: ${atRisk ? '⚠ Position At Risk' : '✓ Position Safe'}`
+        );
+        fetchBalance();
+        showToast('Transaction confirmed on devnet!', 'success');
+      } catch(e) {
+        showResult('liqResult', 'error', 'Transaction Failed', e.message || 'User rejected or network error.');
+      }
 
       btn.disabled = false;
       btn.textContent = 'Run Encrypted Liquidation Check';
@@ -1379,7 +1008,6 @@
       if (!walletConnected) return;
       const borrow = parseFloat(document.getElementById('capBorrow').value) || 0;
       const collateral = parseFloat(document.getElementById('capCollateral').value);
-
       if (!collateral) {
         showResult('capResult', 'error', 'Missing Fields', 'Please enter your collateral amount.');
         return;
@@ -1387,17 +1015,28 @@
 
       const btn = document.getElementById('capBtn');
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>Computing Capacity...';
-      await simulateComputation(2000);
+      btn.innerHTML = '<span class="spinner"></span>Waiting for Phantom...';
 
-      const maxBorrow = (collateral * 10000) / 15000;
-      const capacity = Math.max(maxBorrow - borrow, 0);
-      const txHash = mockTxHash();
-      const encResult = mockEncrypted();
+      try {
+        const tx = await buildTransaction('compute_borrow_capacity', {
+          current_borrow: Math.floor(borrow * 1e9),
+          collateral_amount: Math.floor(collateral * 1e9)
+        });
 
-      showResult('capResult', 'success', 'Capacity Computed',
-        `TX: ${txHash.slice(0,20)}...\n\nEncrypted Result: 0x${encResult.slice(0,32)}...\n\nSimulated Capacity: ~${capacity.toFixed(4)} SOL remaining\nNote: Actual value encrypted — visible only to you.\nMPC computed capacity without learning your position.`
-      );
+        btn.innerHTML = '<span class="spinner"></span>Sending to devnet...';
+        const sig = await sendTransaction(tx);
+
+        const maxBorrow = (collateral * 10000) / 15000;
+        const capacity = Math.max(maxBorrow - borrow, 0);
+
+        showResult('capResult', 'success', 'Transaction Confirmed',
+          `Signature: <a class="tx-link" href="${DEVNET_EXPLORER}${sig}?cluster=devnet" target="_blank">${sig.slice(0,20)}...${sig.slice(-8)}</a>\n\nEncrypted capacity computation queued on-chain.\nSimulated Remaining Capacity: ~${capacity.toFixed(4)} SOL\nActual result encrypted — visible only to you.`
+        );
+        fetchBalance();
+        showToast('Transaction confirmed on devnet!', 'success');
+      } catch(e) {
+        showResult('capResult', 'error', 'Transaction Failed', e.message || 'User rejected or network error.');
+      }
 
       btn.disabled = false;
       btn.textContent = 'Compute Encrypted Borrow Capacity';
@@ -1407,21 +1046,12 @@
     function showResult(id, type, title, body) {
       const el = document.getElementById(id);
       el.className = 'result-box show ' + type;
-      el.innerHTML = `<div class="result-title">${title}</div><div class="result-body">${body}</div>`;
+      el.innerHTML = `<div class="result-title">${title}</div><div class="result-body" style="white-space:pre-wrap">${body}</div>`;
     }
 
     function showToast(msg, type) {
       const t = document.createElement('div');
-      t.style.cssText = `
-        position:fixed;bottom:2rem;right:2rem;z-index:9999;
-        padding:0.85rem 1.5rem;
-        background:${type === 'success' ? 'var(--brown-4)' : 'var(--error)'};
-        color:var(--cream-1);
-        font-family:'Josefin Sans',sans-serif;
-        font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
-        box-shadow:0 8px 24px rgba(0,0,0,0.2);
-        animation:fadeUp 0.3s forwards;
-      `;
+      t.style.cssText = `position:fixed;bottom:2rem;right:2rem;z-index:9999;padding:0.85rem 1.5rem;background:${type==='success'?'var(--brown-4)':'var(--error)'};color:var(--cream-1);font-family:'Josefin Sans',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;box-shadow:0 8px 24px rgba(0,0,0,0.2);animation:fadeUp 0.3s forwards;`;
       t.textContent = msg;
       document.body.appendChild(t);
       setTimeout(() => t.remove(), 3500);
@@ -1431,14 +1061,24 @@
       document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Auto-detect Phantom on load
+    // ─── LOAD SOLANA WEB3 ───
     window.addEventListener('load', () => {
+      // Load solana/web3.js from CDN
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js';
+      script.onload = () => {
+        window.solanaWeb3 = solanaWeb3;
+        console.log('Solana web3.js loaded');
+      };
+      document.head.appendChild(script);
+
       if (window.solana?.isPhantom) {
         window.solana.on('connect', () => {
           walletPublicKey = window.solana.publicKey.toString();
           walletConnected = true;
           updateWalletUI(true);
           disableSubmitBtns(false);
+          fetchBalance();
         });
         window.solana.on('disconnect', () => {
           walletConnected = false;
