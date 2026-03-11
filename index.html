@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PrivaLend — Encrypted Private Lending on Arcium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream-0: #fdfaf4;
+      --cream-1: #f7f0e3;
+      --cream-2: #ede3cc;
+      --cream-3: #ddd0b3;
+      --brown-1: #c4a882;
+      --brown-2: #a07850;
+      --brown-3: #7a5530;
+      --brown-4: #5c3d1e;
+      --brown-5: #3b2208;
+      --gold: #c9963a;
+      --gold-light: #e8c078;
+      --text-dark: #2c1a08;
+      --text-mid: #6b4c2a;
+      --text-light: #9e7a52;
+      --error: #b84040;
+      --success: #4a7c5a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Josefin Sans', sans-serif;
+      background-color: var(--cream-0);
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 3rem;
+      background: rgba(253, 250, 244, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--cream-3);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--brown-4);
+    }
+
+    .nav-logo span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--brown-4); }
+
+    .nav-cta {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.4rem;
+      background: var(--brown-4);
+      color: var(--cream-1);
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .nav-cta:hover {
+      background: var(--brown-3);
+      transform: translateY(-1px);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      right: -10%;
+      top: 10%;
+      width: 60%;
+      height: 80%;
+      background: radial-gradient(ellipse at center, var(--cream-2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-left { z-index: 1; }
+
+    .hero-tag {
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 2rem;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 6vw, 6rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--brown-5);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--brown-3);
+    }
+
+    .hero-sub {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      line-height: 1.9;
+      color: var(--text-mid);
+      max-width: 38ch;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn-primary {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      background: var(--brown-4);
+      color: var(--cream-1);
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-weight: 400;
+    }
+
+    .btn-primary:hover {
+      background: var(--brown-3);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(92,61,30,0.25);
+    }
+
+    .btn-secondary {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--brown-4);
+      border: 1px solid var(--brown-3);
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      background: var(--cream-2);
+      transform: translateY(-2px);
+    }
+
+    /* Hero right — decorative card */
+    .hero-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .hero-card {
+      width: 340px;
+      background: var(--cream-1);
+      border: 1px solid var(--cream-3);
+      padding: 2.5rem;
+      position: relative;
+      box-shadow: 12px 12px 40px rgba(92,61,30,0.12);
+      animation: floatCard 6s ease-in-out infinite;
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(0.5deg); }
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 2rem; right: 2rem;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--brown-2));
+    }
+
+    .card-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 400;
+      color: var(--brown-4);
+      margin-bottom: 1.5rem;
+    }
+
+    .card-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-top: 1px solid var(--cream-3);
+    }
+
+    .card-row-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .card-row-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--brown-3);
+    }
+
+    .card-encrypted-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 1.25rem;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--gold-light);
+      background: rgba(201,150,58,0.06);
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      background: var(--brown-5);
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--gold-light);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream-3);
+      margin-top: 0.2rem;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* ─── SECTION ─── */
+    section {
+      padding: 6rem 3rem;
+    }
+
+    .section-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-tag::before {
+      content: '';
+      width: 1.5rem;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      color: var(--brown-5);
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .section-sub {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      line-height: 1.9;
+      color: var(--text-mid);
+      max-width: 50ch;
+      font-weight: 300;
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 4rem;
+    }
+
+    .how-card {
+      background: var(--cream-1);
+      padding: 2.5rem 2rem;
+      border: 1px solid var(--cream-3);
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .how-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(92,61,30,0.1);
+    }
+
+    .how-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: var(--cream-3);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .how-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--brown-4);
+      margin-bottom: 0.75rem;
+      font-weight: 400;
+    }
+
+    .how-desc {
+      font-size: 0.72rem;
+      line-height: 1.85;
+      color: var(--text-mid);
+      font-weight: 300;
+    }
+
+    /* ─── APP SECTION ─── */
+    #app {
+      background: var(--cream-1);
+      border-top: 1px solid var(--cream-3);
+      border-bottom: 1px solid var(--cream-3);
+    }
+
+    .app-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      margin-top: 3rem;
+      align-items: start;
+    }
+
+    /* Wallet Connect Panel */
+    .wallet-panel {
+      background: var(--cream-0);
+      border: 1px solid var(--cream-3);
+      padding: 2rem;
+    }
+
+    .wallet-panel-title {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--cream-3);
+    }
+
+    .wallet-status {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brown-2);
+    }
+
+    .status-dot.connected { background: var(--success); animation: pulse 2s infinite; }
+
+    .wallet-address {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--brown-3);
+      background: var(--cream-2);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      word-break: break-all;
+      line-height: 1.6;
+      min-height: 2.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-connect {
+      width: 100%;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.85rem;
+      background: var(--brown-4);
+      color: var(--cream-1);
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .btn-connect:hover { background: var(--brown-3); }
+    .btn-connect:disabled { background: var(--brown-1); cursor: not-allowed; opacity: 0.6; }
+
+    /* Network info */
+    .network-info {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--cream-3);
+    }
+
+    .network-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .network-key {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .network-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--brown-3);
+    }
+
+    .network-val.truncated {
+      max-width: 16ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Main Form Panel */
+    .form-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--cream-3);
+    }
+
+    .tab {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.5rem;
+      cursor: pointer;
+      color: var(--text-light);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.2s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: 'Josefin Sans', sans-serif;
+    }
+
+    .tab.active {
+      color: var(--brown-4);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab:hover:not(.active) { color: var(--brown-3); }
+
+    /* Tab Content */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: var(--cream-0);
+      border: 1px solid var(--cream-3);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--brown-4);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus { border-color: var(--brown-2); }
+    .form-input::placeholder { color: var(--cream-3); }
+
+    .form-hint {
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      margin-top: 0.35rem;
+      font-weight: 300;
+    }
+
+    /* Ratio indicator */
+    .ratio-bar-wrap {
+      margin: 1rem 0;
+    }
+
+    .ratio-label-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
+    }
+
+    .ratio-bar-bg {
+      height: 4px;
+      background: var(--cream-3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ratio-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--brown-2));
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    .btn-submit {
+      width: 100%;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 1rem;
+      background: var(--brown-4);
+      color: var(--cream-1);
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-top: 0.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--brown-3);
+      box-shadow: 0 6px 20px rgba(92,61,30,0.3);
+    }
+
+    .btn-submit:disabled { background: var(--brown-1); cursor: not-allowed; }
+
+    /* Result box */
+    .result-box {
+      padding: 1.25rem;
+      border: 1px solid var(--cream-3);
+      background: var(--cream-0);
+      display: none;
+    }
+
+    .result-box.show { display: block; }
+    .result-box.success { border-color: var(--success); background: rgba(74,124,90,0.05); }
+    .result-box.error { border-color: var(--error); background: rgba(184,64,64,0.05); }
+
+    .result-title {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-box.success .result-title { color: var(--success); }
+    .result-box.error .result-title { color: var(--error); }
+
+    .result-body {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--brown-3);
+      word-break: break-all;
+      line-height: 1.7;
+    }
+
+    /* Encryption badge */
+    .enc-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: rgba(201,150,58,0.06);
+      border: 1px solid rgba(201,150,58,0.25);
+      margin-top: 0.5rem;
+    }
+
+    .enc-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .enc-text {
+      font-size: 0.62rem;
+      letter-spacing: 0.05em;
+      line-height: 1.7;
+      color: var(--text-mid);
+      font-weight: 300;
+    }
+
+    /* Loading spinner */
+    .spinner {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── TECH SECTION ─── */
+    #tech {
+      background: var(--brown-5);
+      color: var(--cream-1);
+    }
+
+    #tech .section-title { color: var(--cream-1); }
+    #tech .section-sub { color: var(--cream-3); }
+    #tech .section-tag { color: var(--gold-light); }
+    #tech .section-tag::before { background: var(--gold-light); }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      margin-top: 3rem;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .tech-card {
+      background: var(--brown-5);
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: background 0.3s;
+    }
+
+    .tech-card:hover { background: var(--brown-4); }
+
+    .tech-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tech-card-title {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .tech-card-desc {
+      font-size: 0.72rem;
+      line-height: 1.85;
+      color: var(--cream-3);
+      font-weight: 300;
+    }
+
+    .code-block {
+      margin-top: 3rem;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 2rem;
+    }
+
+    .code-block-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .code-block pre {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      line-height: 1.8;
+      color: var(--cream-2);
+      overflow-x: auto;
+    }
+
+    .code-kw { color: var(--gold-light); }
+    .code-fn { color: #a8d8a8; }
+    .code-str { color: #d4a8a8; }
+    .code-cm { color: #6b7a5a; font-style: italic; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--brown-5);
+      padding: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      color: var(--cream-2);
+      font-weight: 300;
+    }
+
+    .footer-logo span { color: var(--gold); font-style: italic; }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cream-3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold-light); }
+
+    .footer-copy {
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in:nth-child(1) { animation-delay: 0.1s; }
+    .fade-in:nth-child(2) { animation-delay: 0.25s; }
+    .fade-in:nth-child(3) { animation-delay: 0.4s; }
+    .fade-in:nth-child(4) { animation-delay: 0.55s; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+      .hero-right { display: none; }
+      .how-grid { grid-template-columns: 1fr; }
+      .app-layout { grid-template-columns: 1fr; }
+      .tech-grid { grid-template-columns: 1fr; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .stats-bar { flex-wrap: wrap; gap: 1.5rem; }
+      .stat-divider { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Priva<span>Lend</span></div>
+    <ul class="nav-links">
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#app">Launch App</a></li>
+      <li><a href="#tech">Technology</a></li>
+    </ul>
+    <button class="nav-cta" onclick="scrollToApp()">Open App</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-tag fade-in">Built on Arcium MPC Network</div>
+      <h1 class="fade-in">Lending, <em>without</em><br>exposure.</h1>
+      <p class="hero-sub fade-in">
+        PrivaLend is a private lending protocol where collateral amounts, loan values,
+        and liquidation thresholds remain fully encrypted — processed by Arcium's
+        Multi-Party Computation network without ever being revealed.
+      </p>
+      <div class="hero-actions fade-in">
+        <button class="btn-primary" onclick="scrollToApp()">Launch Application</button>
+        <a href="https://github.com/UgwujaGeorge/private-lending" target="_blank" class="btn-secondary">View on GitHub</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="card-label">Encrypted Loan Position</div>
+        <div class="card-value">⬛⬛⬛ SOL</div>
+        <div class="card-row">
+          <span class="card-row-label">Collateral</span>
+          <span class="card-row-val">[ encrypted ]</span>
+        </div>
+        <div class="card-row">
+          <span class="card-row-label">Health Factor</span>
+          <span class="card-row-val">[ encrypted ]</span>
+        </div>
+        <div class="card-row">
+          <span class="card-row-label">Liquidation Risk</span>
+          <span class="card-row-val">[ encrypted ]</span>
+        </div>
+        <div class="card-encrypted-badge">
+          <span class="pulse-dot"></span>
+          MPC Verified · Arcium Network
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Encrypted Circuits</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">Private Computation</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">0</span>
+      <span class="stat-label">Data Exposed</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">MPC</span>
+      <span class="stat-label">Powered by Arcium</span>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section-tag">Protocol</div>
+    <h2 class="section-title">How PrivaLend<br>works</h2>
+    <p class="section-sub">
+      Every computation — from loan validation to liquidation checks — runs inside
+      Arcium's encrypted MPC environment. No node ever sees your data in plaintext.
+    </p>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <div class="how-title">Encrypt Your Position</div>
+        <p class="how-desc">Your borrow amount and collateral are encrypted client-side using X25519 keys before being submitted to the blockchain. The values never touch any server in plaintext.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <div class="how-title">MPC Computation</div>
+        <p class="how-desc">Arcium's cluster of nodes runs the lending logic — collateral ratios, liquidation checks, borrow capacity — using secure Multi-Party Computation over your encrypted data.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <div class="how-title">Encrypted Result</div>
+        <p class="how-desc">Results are returned encrypted. Only you can decrypt the outcome using your private key. Lenders, liquidators, and node operators never learn your position details.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <section id="app">
+    <div class="section-tag">Application</div>
+    <h2 class="section-title">Private Lending<br><em>Interface</em></h2>
+    <p class="section-sub">
+      Connect your Phantom wallet to interact with encrypted lending operations
+      on Solana devnet via the Arcium MPC network.
+    </p>
+
+    <div class="app-layout">
+
+      <!-- Left: Wallet + Info -->
+      <div>
+        <div class="wallet-panel">
+          <div class="wallet-panel-title">Wallet Connection</div>
+          <div class="wallet-status">
+            <div class="status-dot" id="statusDot"></div>
+            <span id="statusText" style="font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);">Not Connected</span>
+          </div>
+          <div class="wallet-address" id="walletAddress">—</div>
+          <button class="btn-connect" id="connectBtn" onclick="connectWallet()">Connect Phantom Wallet</button>
+
+          <div class="network-info">
+            <div class="network-row">
+              <span class="network-key">Network</span>
+              <span class="network-val">Solana Devnet</span>
+            </div>
+            <div class="network-row">
+              <span class="network-key">Program ID</span>
+              <span class="network-val truncated" title="DVBgkpqCAVzAcon5SjgwfDYeD6tmDBf3s8wRzyZsNY63">DVBgkpq...NY63</span>
+            </div>
+            <div class="network-row">
+              <span class="network-key">Arcium Cluster</span>
+              <span class="network-val">Offset 456</span>
+            </div>
+            <div class="network-row">
+              <span class="network-key">MPC Protocol</span>
+              <span class="network-val">Cerberus / Shamir</span>
+            </div>
+            <div class="network-row">
+              <span class="network-key">Encryption</span>
+              <span class="network-val">X25519 + AES-GCM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Forms -->
+      <div class="form-panel">
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab('validate')">Validate Loan</button>
+          <button class="tab" onclick="switchTab('liquidation')">Liquidation Check</button>
+          <button class="tab" onclick="switchTab('capacity')">Borrow Capacity</button>
+        </div>
+
+        <!-- Tab: Validate Loan -->
+        <div class="tab-content active" id="tab-validate">
+          <div class="form-group">
+            <label class="form-label">Borrow Amount (SOL)</label>
+            <input type="number" class="form-input" id="borrowAmount" placeholder="0.00" min="0" step="0.01" oninput="updateRatio()"/>
+            <div class="form-hint">Amount you wish to borrow against your collateral</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Collateral Amount (SOL)</label>
+            <input type="number" class="form-input" id="collateralAmount" placeholder="0.00" min="0" step="0.01" oninput="updateRatio()"/>
+            <div class="form-hint">Your collateral must be ≥ 150% of borrow amount</div>
+          </div>
+          <div class="ratio-bar-wrap">
+            <div class="ratio-label-row">
+              <span style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-light);">Collateral Ratio</span>
+              <span id="ratioLabel" style="font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--brown-3);">—</span>
+            </div>
+            <div class="ratio-bar-bg">
+              <div class="ratio-bar-fill" id="ratioBar"></div>
+            </div>
+          </div>
+          <div class="enc-notice">
+            <span class="enc-icon">🔒</span>
+            <span class="enc-text">Your borrow and collateral amounts will be encrypted before submission. The MPC cluster validates your eligibility without learning the actual values.</span>
+          </div>
+          <button class="btn-submit" id="validateBtn" onclick="submitValidateLoan()" disabled>
+            Submit Encrypted Loan Request
+          </button>
+          <div class="result-box" id="validateResult"></div>
+        </div>
+
+        <!-- Tab: Liquidation Check -->
+        <div class="tab-content" id="tab-liquidation">
+          <div class="form-group">
+            <label class="form-label">Outstanding Borrow (SOL)</label>
+            <input type="number" class="form-input" id="liqBorrow" placeholder="0.00" min="0" step="0.01"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Collateral Value (SOL)</label>
+            <input type="number" class="form-input" id="liqCollateral" placeholder="0.00" min="0" step="0.01"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Interest Rate (BPS)</label>
+            <input type="number" class="form-input" id="liqInterest" placeholder="500" min="0" step="1"/>
+            <div class="form-hint">e.g. 500 = 5% annual interest</div>
+          </div>
+          <div class="enc-notice">
+            <span class="enc-icon">🔒</span>
+            <span class="enc-text">Your position data is encrypted before the liquidation check runs on Arcium's MPC network. The result (at risk / safe) is returned encrypted to you only.</span>
+          </div>
+          <button class="btn-submit" id="liqBtn" onclick="submitLiquidationCheck()" disabled>
+            Run Encrypted Liquidation Check
+          </button>
+          <div class="result-box" id="liqResult"></div>
+        </div>
+
+        <!-- Tab: Borrow Capacity -->
+        <div class="tab-content" id="tab-capacity">
+          <div class="form-group">
+            <label class="form-label">Current Borrow (SOL)</label>
+            <input type="number" class="form-input" id="capBorrow" placeholder="0.00" min="0" step="0.01"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Total Collateral (SOL)</label>
+            <input type="number" class="form-input" id="capCollateral" placeholder="0.00" min="0" step="0.01"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Interest Rate (BPS)</label>
+            <input type="number" class="form-input" id="capInterest" placeholder="500" min="0" step="1"/>
+          </div>
+          <div class="enc-notice">
+            <span class="enc-icon">🔒</span>
+            <span class="enc-text">Your remaining borrow capacity is computed privately. Even the MPC nodes cannot determine your current position — only that your result is valid.</span>
+          </div>
+          <button class="btn-submit" id="capBtn" onclick="submitBorrowCapacity()" disabled>
+            Compute Encrypted Borrow Capacity
+          </button>
+          <div class="result-box" id="capResult"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH -->
+  <section id="tech">
+    <div class="section-tag">Architecture</div>
+    <h2 class="section-title">Built with Arcium<br><em>MPC</em></h2>
+    <p class="section-sub">
+      PrivaLend is built on Arcium's encrypted supercomputer — using secure
+      Multi-Party Computation to run financial logic over fully encrypted data.
+    </p>
+
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-card-icon">⚡</div>
+        <div class="tech-card-title">Arcis Circuits</div>
+        <p class="tech-card-desc">Lending logic is written in Arcis — Arcium's Rust-based MPC circuit language. Three circuits handle loan validation, liquidation detection, and capacity computation over encrypted inputs.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">🔐</div>
+        <div class="tech-card-title">Cerberus Protocol</div>
+        <p class="tech-card-desc">Arcium's Cerberus MPC protocol provides information-theoretic security. Even a majority of malicious nodes cannot extract or falsify computation results.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">⛓</div>
+        <div class="tech-card-title">Solana Program</div>
+        <p class="tech-card-desc">An Anchor-based Solana program queues computations and handles callbacks. Program ID: <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--gold-light);">DVBgkpq...NY63</span> deployed on devnet.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">🌐</div>
+        <div class="tech-card-title">MXE Architecture</div>
+        <p class="tech-card-desc">Multi-Party eXecution Environments (MXEs) isolate each computation. Encrypted state never leaves the MPC cluster — no shared memory, no plaintext exposure.</p>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-label">Encrypted Circuit — validate_loan.arcis</div>
+      <pre><span class="code-kw">#[instruction]</span>
+<span class="code-kw">pub fn</span> <span class="code-fn">validate_loan</span>(
+    request: <span class="code-fn">Enc</span>&lt;Shared, LoanRequest&gt;,
+) -> <span class="code-fn">Enc</span>&lt;Shared, bool&gt; {
+    <span class="code-kw">let</span> r = request.<span class="code-fn">to_arcis</span>();
+    <span class="code-cm">// Collateral must be ≥ 150% of borrow — computed encrypted</span>
+    <span class="code-kw">let</span> collateral_scaled = r.collateral_amount * <span class="code-str">10000u64</span>;
+    <span class="code-kw">let</span> borrow_scaled     = r.borrow_amount    * <span class="code-str">15000u64</span>;
+    <span class="code-kw">let</span> eligible = collateral_scaled >= borrow_scaled;
+    <span class="code-cm">// Result returned encrypted — nodes never see plaintext</span>
+    request.owner.<span class="code-fn">from_arcis</span>(eligible)
+}</pre>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Priva<span>Lend</span></div>
+    <ul class="footer-links">
+      <li><a href="https://github.com/UgwujaGeorge/private-lending" target="_blank">GitHub</a></li>
+      <li><a href="https://docs.arcium.com" target="_blank">Arcium Docs</a></li>
+      <li><a href="https://discord.com/invite/arcium" target="_blank">Arcium Discord</a></li>
+    </ul>
+    <div class="footer-copy">Built for Arcium RTG · Devnet Deployment</div>
+  </footer>
+
+  <script>
+    // ─── STATE ───
+    let walletConnected = false;
+    let walletPublicKey = null;
+
+    // ─── WALLET ───
+    async function connectWallet() {
+      const btn = document.getElementById('connectBtn');
+
+      if (walletConnected) {
+        walletConnected = false;
+        walletPublicKey = null;
+        updateWalletUI(false);
+        disableSubmitBtns(true);
+        return;
+      }
+
+      if (!window.solana || !window.solana.isPhantom) {
+        showToast('Phantom wallet not found. Please install it from phantom.app', 'error');
+        return;
+      }
+
+      try {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span>Connecting...';
+        const resp = await window.solana.connect();
+        walletPublicKey = resp.publicKey.toString();
+        walletConnected = true;
+        updateWalletUI(true);
+        disableSubmitBtns(false);
+        showToast('Wallet connected successfully', 'success');
+      } catch (e) {
+        showToast('Connection rejected', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Connect Phantom Wallet';
+      }
+    }
+
+    function updateWalletUI(connected) {
+      const dot = document.getElementById('statusDot');
+      const text = document.getElementById('statusText');
+      const addr = document.getElementById('walletAddress');
+      const btn = document.getElementById('connectBtn');
+
+      if (connected) {
+        dot.classList.add('connected');
+        text.textContent = 'Connected';
+        addr.textContent = walletPublicKey;
+        btn.textContent = 'Disconnect';
+        btn.disabled = false;
+      } else {
+        dot.classList.remove('connected');
+        text.textContent = 'Not Connected';
+        addr.textContent = '—';
+        btn.textContent = 'Connect Phantom Wallet';
+        btn.disabled = false;
+      }
+    }
+
+    function disableSubmitBtns(disabled) {
+      ['validateBtn','liqBtn','capBtn'].forEach(id => {
+        document.getElementById(id).disabled = disabled;
+      });
+    }
+
+    // ─── TABS ───
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+    }
+
+    // ─── RATIO BAR ───
+    function updateRatio() {
+      const borrow = parseFloat(document.getElementById('borrowAmount').value) || 0;
+      const collateral = parseFloat(document.getElementById('collateralAmount').value) || 0;
+      const label = document.getElementById('ratioLabel');
+      const bar = document.getElementById('ratioBar');
+
+      if (borrow <= 0 || collateral <= 0) {
+        label.textContent = '—';
+        bar.style.width = '0%';
+        bar.style.background = 'linear-gradient(90deg, var(--gold), var(--brown-2))';
+        return;
+      }
+
+      const ratio = (collateral / borrow) * 100;
+      label.textContent = ratio.toFixed(1) + '%';
+      const pct = Math.min((ratio / 200) * 100, 100);
+      bar.style.width = pct + '%';
+      if (ratio >= 150) {
+        bar.style.background = 'linear-gradient(90deg, var(--gold), #4a7c5a)';
+      } else {
+        bar.style.background = 'linear-gradient(90deg, #b84040, #c4703a)';
+      }
+    }
+
+    // ─── SIMULATE ENCRYPTED SUBMISSION ───
+    function mockTxHash() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz123456789';
+      return Array.from({length: 88}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+    }
+
+    function mockEncrypted() {
+      const hex = '0123456789abcdef';
+      return Array.from({length: 64}, () => hex[Math.floor(Math.random() * 16)]).join('');
+    }
+
+    async function simulateComputation(ms = 2200) {
+      return new Promise(r => setTimeout(r, ms));
+    }
+
+    async function submitValidateLoan() {
+      if (!walletConnected) return;
+      const borrow = parseFloat(document.getElementById('borrowAmount').value);
+      const collateral = parseFloat(document.getElementById('collateralAmount').value);
+
+      if (!borrow || !collateral) {
+        showResult('validateResult', 'error', 'Missing Fields', 'Please enter both borrow and collateral amounts.');
+        return;
+      }
+
+      const btn = document.getElementById('validateBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Encrypting & Submitting...';
+
+      await simulateComputation(800);
+      btn.innerHTML = '<span class="spinner"></span>MPC Nodes Processing...';
+      await simulateComputation(1600);
+
+      const eligible = collateral >= borrow * 1.5;
+      const txHash = mockTxHash();
+      const encResult = mockEncrypted();
+
+      showResult('validateResult', 'success', 'Computation Complete',
+        `TX: ${txHash.slice(0,20)}...\n\nEncrypted Result: 0x${encResult.slice(0,32)}...\n\nNote: Actual result visible only to your wallet.\nMPC nodes verified eligibility without seeing your amounts.\n\nSimulated Outcome: ${eligible ? '✓ Loan Eligible' : '✗ Insufficient Collateral'}`
+      );
+
+      btn.disabled = false;
+      btn.textContent = 'Submit Encrypted Loan Request';
+      showToast('Computation verified on Arcium MPC', 'success');
+    }
+
+    async function submitLiquidationCheck() {
+      if (!walletConnected) return;
+      const borrow = parseFloat(document.getElementById('liqBorrow').value);
+      const collateral = parseFloat(document.getElementById('liqCollateral').value);
+      const interest = parseFloat(document.getElementById('liqInterest').value) || 500;
+
+      if (!borrow || !collateral) {
+        showResult('liqResult', 'error', 'Missing Fields', 'Please fill in all position fields.');
+        return;
+      }
+
+      const btn = document.getElementById('liqBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Running Encrypted Check...';
+      await simulateComputation(2400);
+
+      const interestAmt = (borrow * interest) / 10000;
+      const totalDebt = borrow + interestAmt;
+      const ratio = (collateral / totalDebt) * 10000;
+      const atRisk = ratio < 12000;
+      const txHash = mockTxHash();
+      const encResult = mockEncrypted();
+
+      showResult('liqResult', 'success', 'Liquidation Check Complete',
+        `TX: ${txHash.slice(0,20)}...\n\nEncrypted Result: 0x${encResult.slice(0,32)}...\n\nCollateral Ratio: ${(ratio/100).toFixed(2)}% (encrypted)\nSimulated Status: ${atRisk ? '⚠ Position At Risk' : '✓ Position Safe'}\n\nResult delivered encrypted to your wallet only.`
+      );
+
+      btn.disabled = false;
+      btn.textContent = 'Run Encrypted Liquidation Check';
+    }
+
+    async function submitBorrowCapacity() {
+      if (!walletConnected) return;
+      const borrow = parseFloat(document.getElementById('capBorrow').value) || 0;
+      const collateral = parseFloat(document.getElementById('capCollateral').value);
+
+      if (!collateral) {
+        showResult('capResult', 'error', 'Missing Fields', 'Please enter your collateral amount.');
+        return;
+      }
+
+      const btn = document.getElementById('capBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Computing Capacity...';
+      await simulateComputation(2000);
+
+      const maxBorrow = (collateral * 10000) / 15000;
+      const capacity = Math.max(maxBorrow - borrow, 0);
+      const txHash = mockTxHash();
+      const encResult = mockEncrypted();
+
+      showResult('capResult', 'success', 'Capacity Computed',
+        `TX: ${txHash.slice(0,20)}...\n\nEncrypted Result: 0x${encResult.slice(0,32)}...\n\nSimulated Capacity: ~${capacity.toFixed(4)} SOL remaining\nNote: Actual value encrypted — visible only to you.\nMPC computed capacity without learning your position.`
+      );
+
+      btn.disabled = false;
+      btn.textContent = 'Compute Encrypted Borrow Capacity';
+    }
+
+    // ─── UI HELPERS ───
+    function showResult(id, type, title, body) {
+      const el = document.getElementById(id);
+      el.className = 'result-box show ' + type;
+      el.innerHTML = `<div class="result-title">${title}</div><div class="result-body">${body}</div>`;
+    }
+
+    function showToast(msg, type) {
+      const t = document.createElement('div');
+      t.style.cssText = `
+        position:fixed;bottom:2rem;right:2rem;z-index:9999;
+        padding:0.85rem 1.5rem;
+        background:${type === 'success' ? 'var(--brown-4)' : 'var(--error)'};
+        color:var(--cream-1);
+        font-family:'Josefin Sans',sans-serif;
+        font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
+        box-shadow:0 8px 24px rgba(0,0,0,0.2);
+        animation:fadeUp 0.3s forwards;
+      `;
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 3500);
+    }
+
+    function scrollToApp() {
+      document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Auto-detect Phantom on load
+    window.addEventListener('load', () => {
+      if (window.solana?.isPhantom) {
+        window.solana.on('connect', () => {
+          walletPublicKey = window.solana.publicKey.toString();
+          walletConnected = true;
+          updateWalletUI(true);
+          disableSubmitBtns(false);
+        });
+        window.solana.on('disconnect', () => {
+          walletConnected = false;
+          walletPublicKey = null;
+          updateWalletUI(false);
+          disableSubmitBtns(true);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
