@@ -1,0 +1,10 @@
+[package]
+name = "private-lending-circuits"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "private_lending_circuits"
+
+[dependencies]
+arcis = { version = "0.8.5" }
