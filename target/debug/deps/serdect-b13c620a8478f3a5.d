@@ -1,0 +1,11 @@
+/workspaces/private-lending/target/debug/deps/serdect-b13c620a8478f3a5.d: /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/lib.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/array.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/common.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/slice.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/../README.md
+
+/workspaces/private-lending/target/debug/deps/libserdect-b13c620a8478f3a5.rlib: /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/lib.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/array.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/common.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/slice.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/../README.md
+
+/workspaces/private-lending/target/debug/deps/libserdect-b13c620a8478f3a5.rmeta: /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/lib.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/array.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/common.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/slice.rs /home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/../README.md
+
+/home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/lib.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/array.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/common.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/slice.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serdect-0.3.0-rc.0/src/../README.md:
